@@ -1,6 +1,7 @@
 package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "roles")
+@Data
 public class RoleDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -22,29 +24,5 @@ public class RoleDAO {
             joinColumns = @JoinColumn(name = "role_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<UserDAO> users = new LinkedHashSet<>();
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<UserDAO> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<UserDAO> users) {
-        this.users = users;
-    }
 
 }

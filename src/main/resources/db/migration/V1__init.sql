@@ -10,9 +10,9 @@ create table users
 (
     id       uuid
         constraint user_pk PRIMARY KEY,
-    username VARCHAR(60)  NOT NULL UNIQUE,
+    email VARCHAR(60)  NOT NULL UNIQUE,
     password VARCHAR(60) NOT NULL,
-    UNIQUE (username)
+    UNIQUE (email)
 );
 
 create table user_role_relation
