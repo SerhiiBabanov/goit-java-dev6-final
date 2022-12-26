@@ -1,7 +1,7 @@
 package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import ua.goit.dev6.note.NoteDAO;
 
 import java.util.LinkedHashSet;
@@ -9,8 +9,9 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "users")
-@Data
 public class UserDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

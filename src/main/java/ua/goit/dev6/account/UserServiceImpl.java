@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     public UserDTO save(UserDTO usersDto) {
         usersDto.setPassword(passwordEncoder.encode(usersDto.getPassword()));
-        UserDAO savedUser = userRepository.save(mapper.userToDAO(usersDto));
+        UserDAO savedUser = userRepository.save(mapper.userToDao(usersDto));
         return mapper.userToDTO(savedUser);
     }
 
