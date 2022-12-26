@@ -30,6 +30,9 @@ public class UserDAO {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleDAO> roles = new LinkedHashSet<>();
 
+    @Transient
+    private String passwordConfirm;
+
     public UUID getId() {
         return id;
     }
@@ -70,4 +73,12 @@ public class UserDAO {
         this.roles = roles;
     }
 
+
+    public String getPasswordConfirm() {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm(String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
+    }
 }
