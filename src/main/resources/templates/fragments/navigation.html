@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-<div class="header clearfix" th:fragment="header">
-    <nav class="navbar">
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="headerValidated" class="header clearfix">
+    <nav class="navbar" >
         <div class="navbar-nav">
-            <a class="navbar-brand" href="#">MyNotes project</a>
+            <a class="navbar-brand" href="#">MyNotes</a>
         </div>
         <ul class="nav justify-content-end">
             <li class="nav-item">
@@ -28,5 +20,24 @@
     </nav>
 </div>
 
-</body>
-</html>
+<div xmlns:th="http://www.thymeleaf.org" th:fragment="headerUnvalidated" class="header clearfix">
+    <nav class="navbar" >
+        <div class="navbar-nav">
+            <a class="navbar-brand" href="#">MyNotes</a>
+        </div>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Login</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+

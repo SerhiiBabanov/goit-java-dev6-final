@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TestIndexController {
     @GetMapping("/")
     public String index(){
-        return "notes";
+        return "notes/notes";
     }
 }

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/layout}"
+      lang="en">
+<body>
+<section layout:fragment="content">
+    <div class="container">
+        <h1>Create note</h1>
+        <form th:action="@{/notes/save}"  th:object="${note}" method="POST">
+            <div class="form-group">
+                <label> Title: </label>
+                <input type="text"  th:field="*{name}" class="form-control">
+            </div>
+            <div div class="form-group">
+                <label> Content: </label>
+                <textarea rows="20"  th:field="*{content}" class="form-control"></textarea><br>
+            </div>
+            <div div class="form-group row">
+                <label> Public: </label>
+                <input type="radio" th:field="*{accessType}" id="public" name="accessType" th:value="PUBLIC">
+                <label> Private: </label>
+                <input type="radio" th:field="*{accessType}" id="private" name="accessType" th:value="PRIVATE" checked="checked">
+                <div class="ml-1">
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</section>
+</body>
+</html>
