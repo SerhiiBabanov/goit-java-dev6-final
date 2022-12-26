@@ -13,7 +13,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserDAO user = repository.findByUsername(username).orElseThrow(() ->
+        UserDAO user = repository.findByEmail(username).orElseThrow(() ->
                 new UsernameNotFoundException(String.format("User with username %s not exists", username)));
         return new UserPrincipal(user);
     }
