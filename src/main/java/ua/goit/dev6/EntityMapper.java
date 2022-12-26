@@ -11,5 +11,5 @@ public interface EntityMapper {
 
     UserDTO userToDTO(UserDAO userDAO);
 
-    UserDAO userToDao(UserDTO userDTO);
+    UserDAO userToDAO(UserDTO userDTO);
 }
