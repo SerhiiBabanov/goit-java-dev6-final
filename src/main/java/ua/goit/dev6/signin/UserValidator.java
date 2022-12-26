@@ -30,7 +30,7 @@ public class UserValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
         if (!pattern.matcher(user.getUsername()).matches()) {
-            errors.rejectValue("username", "Check.correct.password");
+            errors.rejectValue("username", "Check.correct.email");
         }
 //        if (user.getUsername().length() < 5 || user.getUsername().length() > 50) {
 //            errors.rejectValue("username", "Size.userForm.username");
