@@ -1,68 +1,66 @@
 package ua.goit.dev6.account;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
-import ua.goit.dev6.exception.ValidationException;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
 @RequiredArgsConstructor
-@RequestMapping("/user")
-@RestController
+@RequestMapping("/users")
+@Controller
 @Slf4j
 public class UserController {
 
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
-    @GetMapping("/save")
-    public ModelAndView saveForm() {
-        ModelAndView model = new ModelAndView("user/save");
-        model.addObject("users", userService.listAll());
-        return model;
+    @GetMapping("/create")
+    public String saveForm() {
+        return "user/create";
     }
 
-    @PostMapping("/save")
-    public RedirectView saveUsers(@Validated @ModelAttribute(name = "userDto") UserDTO usersDto) throws ValidationException {
+    @PostMapping("/create")
+    public String saveUser(@Validated @ModelAttribute(name = "userDto") UserDTO usersDto, BindingResult result) {
         log.info("Handling save users: " + usersDto);
-        userService.save(usersDto);
-        RedirectView redirectView = new RedirectView("/user/findAll");
-        return redirectView;
-    }
-
-    @GetMapping("/findAll")
-    public ModelAndView findAllUsers() {
-        log.info("Handling find all users request");
-        ModelAndView model = new ModelAndView("user/findAll");
-        model.getModelMap().addAttribute("users", userService.listAll());
-        return model;
-    }
-
-    @GetMapping("/findById")
-    public ModelAndView findById(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
-        log.info("Handling find by id request: " + id);
-        ModelAndView model = new ModelAndView("user/findById");
-        if (!(id.isEmpty() || id.equals(""))) {
-            model.getModelMap().addAttribute("users", userService.getById(UUID.fromString(id)));
+        if (result.hasErrors()) {
+            return "user/create";
         }
-        return model;
+        userService.save(usersDto);
+        return "users/findAll";
     }
 
-    @GetMapping("/update/{id}")
+    @GetMapping
+    public ModelAndView findAllUsers(@RequestParam(value = "id", required = false, defaultValue = "") String id) {
+        log.info("Handling find all users request");
+        ModelAndView result = new ModelAndView("user/findAll");
+
+        if (Objects.nonNull(id) & !id.isEmpty() & !id.isBlank()) {
+            result.addObject("users", userService.getById(UUID.fromString(id)));
+        } else {
+            result.addObject("users", userService.listAll());
+        }
+
+        result.addObject("users", Collections.EMPTY_LIST);
+        return result;
+    }
+
+    @GetMapping("/{id}")
     public ModelAndView updateUserById(@PathVariable("id") UUID id) {
-        ModelAndView model = new ModelAndView("user/editForm");
+        ModelAndView result = new ModelAndView("user/editForm");
         UserDTO usersDto = userService.getById(id);
-        model.addObject("user", usersDto);
-        return model;
+        result.addObject("user", usersDto);
+        return result;
     }
-    
 
-    @GetMapping("/delete/{id}")
-    public RedirectView deleteUserByIdForm(@PathVariable("id") UUID id) {
+    @DeleteMapping("/{id}")
+    public String deleteUserByIdForm(@PathVariable("id") UUID id) {
         userService.deleteById(id);
-        return new RedirectView("/user/findAll");
+        return "user/findAll";
     }
 }
