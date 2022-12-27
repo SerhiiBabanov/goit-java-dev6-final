@@ -1,7 +1,8 @@
-package ua.goit.dev6.account;
+package ua.goit.dev6.roles;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ua.goit.dev6.account.UserDAO;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

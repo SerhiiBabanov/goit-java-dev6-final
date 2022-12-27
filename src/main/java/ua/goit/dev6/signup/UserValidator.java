@@ -1,4 +1,4 @@
-package ua.goit.dev6.signin;
+package ua.goit.dev6.signup;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

@@ -7,6 +7,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ua.goit.dev6.roles.RoleService;
+import ua.goit.dev6.signup.UserValidator;
 
 import java.util.Collections;
 import java.util.Objects;
@@ -17,8 +19,9 @@ import java.util.UUID;
 @Controller
 @Slf4j
 public class UserController {
-
-    private final UserServiceImpl userService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final UserValidator userValidator;
 
     @GetMapping("/create")
     public String saveForm() {
@@ -26,12 +29,14 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String saveUser(@Validated @ModelAttribute(name = "userDto") UserDTO usersDto, BindingResult result) {
-        log.info("Handling save users: " + usersDto);
-        if (result.hasErrors()) {
+    public String saveUser(@Validated @ModelAttribute(name = "userDto") UserDTO userDTO, BindingResult bindingResult) {
+        log.info("Handling save users: " + userDTO);
+        userValidator.validate(userDTO, bindingResult);
+        if (bindingResult.hasErrors()) {
             return "user/create";
         }
-        userService.save(usersDto);
+        userDTO.setRoles(Collections.singletonList(roleService.getByName("ROLE_USER")));
+        userService.save(userDTO);
         return "users/findAll";
     }
 

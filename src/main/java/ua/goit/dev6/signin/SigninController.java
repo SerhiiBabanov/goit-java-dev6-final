@@ -1,54 +1,14 @@
 package ua.goit.dev6.signin;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import ua.goit.dev6.account.UserDTO;
-import ua.goit.dev6.account.UserService;
 
 @RequiredArgsConstructor
 @Controller
 public class SigninController {
-    private final UserService userService;
-
-    private final SecurityServiceImpl securityService;
-
-    private final UserValidator userValidator;
-
-   // private final UserDetailsService userDetailsService;
-
-    //private final AuthenticationManager authenticationManager;
-
-    @GetMapping("/registration")
-    public String registration(Model model) {
-
-        if (securityService.isAuthenticated()) {
-            return "redirect:/";
-        }
-
-        model.addAttribute("userForm", new UserDTO());
-
-        return "signin/registration";
-    }
-
-    @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") UserDTO userForm, BindingResult bindingResult,
-                               HttpServletRequest request) {
-        userValidator.validate(userForm, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "signin/registration";
-        }
-        userService.save(userForm);
-        securityService.autoLogin(userForm.getEmail(), userForm.getPasswordConfirm(), request);
-        return "redirect:/";
-    }
+    private final SecurityService securityService;
 
     @GetMapping("/login")
     public String login(Model model, String error, String logout) {
