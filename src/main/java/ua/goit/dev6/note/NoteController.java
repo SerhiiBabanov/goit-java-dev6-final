@@ -1,11 +1,15 @@
 package ua.goit.dev6.note;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+import ua.goit.dev6.account.UserDAO;
 import ua.goit.dev6.account.UserDTO;
+import ua.goit.dev6.account.UserService;
+import ua.goit.dev6.config.UserPrincipal;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +19,8 @@ import java.util.UUID;
 @RequestMapping("/notes")
 public class NoteController {
     private final NoteService noteService;
+    private final UserService userService;
+
 
     @GetMapping("/findAll")
     private ModelAndView findAll(){
@@ -32,19 +38,19 @@ public class NoteController {
         return result;
     }
 
-    @GetMapping("/{id}")
-    private ModelAndView getUpdateForm(@PathVariable("id") UUID id) {
-        ModelAndView result = new ModelAndView("/notes/updateNoteForm");
-        result.addObject("note", noteService.findById(id));
+    @GetMapping("/edit")
+    private ModelAndView getEditForm(@RequestParam("id") String id) {
+        ModelAndView result = new ModelAndView("/notes/editNoteForm");
+        NoteDTO editNote = noteService.findById(UUID.fromString(id));
+        result.addObject("note", editNote);
         return result;
     }
 
     @PostMapping("/save")
-    private ModelAndView save(@Validated @ModelAttribute("note") NoteDTO note){
-        UserDTO user = new UserDTO(); // add another method
-        note.setUser(user);
+    private RedirectView save(@Validated @ModelAttribute("note") NoteDTO note){
+        note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
-        return findAll();
+        return new RedirectView("/notes/findAll");
     }
 
     @GetMapping("/delete")

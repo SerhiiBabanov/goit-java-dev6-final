@@ -3,23 +3,26 @@
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layouts/layout}"
       lang="en">
+<head>
+    <title>My Notes</title>
+</head>
 <body>
 <div>
 <section layout:fragment="content">
     <div class="container" th:if = "${#lists.isEmpty(notes)}">
         <h3> You didn't create any note </h3>
         <form action="/notes/create" method="GET">
-            <button type="submit">
+            <button type="submit" class="btn btn-primary">
                 Create note
             </button>
         </form>
     </div>
     <div class="container" th:if = "${not #lists.isEmpty(notes)}">
         <h3>
-            My notes - <span th:text="${notes.size()}"></span>> pcs.
+            My notes - <span th:text="${notes.size()}"></span> pcs.
         </h3>
         <form action="/notes/create" method="GET">
-            <button type="submit">
+            <button type="submit" class="btn btn-primary">
                 Create note
             </button>
         </form>
@@ -29,35 +32,32 @@
                 <th>Title</th>
                 <th>Content</th>
                 <th>Access</th>
-                <th colspan="3">Managing</th>
+                <th colspan="3" style="width:15%; max-width:200px; text-align:center">Notes managing</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="note : ${notes}">
                 <td th:text="${note.name}"></td>
-                <td th:text="${note.content}"></td>
+                <td th:text="${note.content}"
+                    style="max-width:150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></td>
                 <td th:text="${note.accessType}"></td>
-                <td>
+                <td  colspan="3" style="display:flex; justify-content:space-around; max-width:200px" >
                     <form action="/notes/delete" method="GET">
                         <input type="hidden" name="id" th:attr="value=${note.id}">
                         <button type="submit">
-                            <img src="src/main/resources/static/icons/trash.png" alt="buttonpng" border="0" />
+                            <img src="/icons/trash.png" alt="deleteButton" style="border:0; width:30px; height:30px"/>
                         </button>
                     </form>
-                </td>
-                <td>
-                    <form action="/notes/{note.id}" method="GET">
+                    <form action="/notes/edit"  th:object="${note}" method="GET">
                         <input type="hidden" name="id" th:attr="value=${note.id}">
                         <button type="submit">
-                            <img src="resources/static/icons/edit.png" alt="buttonpng" border="0" />
+                            <img src="/icons/edit.png" alt="editButton" style="border:0; width:30px; height:30px"/>
                         </button>
                     </form>
-                </td>
-                <td>
                     <form action="/notes/copyLink" method="GET">
-                        <input type="hidden" name="id" th:attr="value=${note.id}">
+                        <input type="hidden" name="id" th:value="${note.id}">
                         <button type="submit">
-                            <img src="static/icons/link-alt.png" alt="buttonpng" border="0" />
+                            <img src="/icons/link-alt.png" alt="copyLinkButton" style="border:0; width:30px; height:30px"/>
                         </button>
                     </form>
                 </td>

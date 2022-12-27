@@ -1,6 +1,8 @@
 package ua.goit.dev6.account;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ua.goit.dev6.EntityMapper;
 import ua.goit.dev6.exception.NotFoundException;
@@ -55,5 +57,12 @@ public class UserService {
         if(isNull(usersDto.getPassword()) || usersDto.getPassword().isEmpty()) {
             throw new ValidationException("Password is empty");
         }
+    }
+
+    public UserDTO getAuthorizedUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDTO user = userRepository.findByEmail(userDetails.getUsername()).map(mapper::userToDTO)
+                .orElseThrow(() -> new NotFoundException("Error with getting autorized user"));
+        return user;
     }
 }

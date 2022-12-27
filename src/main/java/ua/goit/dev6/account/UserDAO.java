@@ -2,6 +2,7 @@ package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 import ua.goit.dev6.note.NoteDAO;
 
 import java.util.LinkedHashSet;
