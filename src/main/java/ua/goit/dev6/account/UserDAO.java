@@ -34,4 +34,6 @@ public class UserDAO {
     private Set<RoleDAO> roles = new LinkedHashSet<>();
 
 
+    @Transient
+    private String passwordConfirm;
 }
