@@ -1,0 +1,27 @@
+@font-face{
+		font-family: 'MyWebFont';
+		src: url('StarJedi-DGRW.woff') format('woff');
+}
+
+.myFont{
+	font-family: 'MyWebFont';
+	letter-spacing:1px;
+	color:white;
+	font-size:27px;
+}
+
+.nav-item{
+	font-family: 'MyWebFont';
+	font-size:17px;
+	letter-spacing:1.5px;
+	color:white;
+	min-width:12vw;
+}
+
+.myFooter{
+    font-family: 'MyWebFont';
+	font-size:11px;
+	letter-spacing:1px;
+	color:white;
+}
+
