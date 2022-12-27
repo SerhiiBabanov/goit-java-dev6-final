@@ -3,10 +3,9 @@ package ua.goit.dev6.account;
 import jakarta.persistence.*;
 import lombok.*;
 import ua.goit.dev6.note.NoteDAO;
+import ua.goit.dev6.roles.RoleDAO;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Getter
@@ -31,9 +30,6 @@ public class UserDAO {
     @JoinTable(name = "user_role_relation",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleDAO> roles = new LinkedHashSet<>();
+    private List<RoleDAO> roles = new ArrayList<>();
 
-
-    @Transient
-    private String passwordConfirm;
 }
