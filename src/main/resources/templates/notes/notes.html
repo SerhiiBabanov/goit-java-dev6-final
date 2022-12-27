@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
         xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layouts/layout}"
+      layout:decorate="~{layout}"
       lang="en">
 <head>
     <title>My Notes</title>
@@ -9,7 +9,7 @@
 <body>
 <div>
 <section layout:fragment="content">
-    <div class="container" th:if = "${#lists.isEmpty(notes)}">
+    <div class="container" th:if = "${#lists.isEmpty(notes)}" style="background:white; opacity: 0.7; overflow-y: auto">
         <h3> You didn't create any note </h3>
         <form action="/notes/create" method="GET">
             <button type="submit" class="btn btn-primary">
@@ -17,7 +17,7 @@
             </button>
         </form>
     </div>
-    <div class="container" th:if = "${not #lists.isEmpty(notes)}">
+    <div class="container" th:if = "${not #lists.isEmpty(notes)}" style="background:white; opacity: 0.7; overflow-y: auto">
         <h3>
             My notes - <span th:text="${notes.size()}"></span> pcs.
         </h3>

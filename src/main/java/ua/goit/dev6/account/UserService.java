@@ -3,10 +3,10 @@ package ua.goit.dev6.account;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.goit.dev6.EntityMapper;
 import ua.goit.dev6.exception.NotFoundException;
-import ua.goit.dev6.exception.ValidationException;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,11 +20,11 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final EntityMapper mapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserDTO save(UserDTO usersDto) throws ValidationException {
-        validateUserDto(usersDto);
-        UserDAO h = mapper.userToDao(usersDto);
-        UserDAO savedUser = userRepository.save(h);
+    public UserDTO save(UserDTO usersDto) {
+        usersDto.setPassword(passwordEncoder.encode(usersDto.getPassword()));
+        UserDAO savedUser = userRepository.save(mapper.userToDao(usersDto));
         return mapper.userToDTO(savedUser);
     }
 
@@ -45,18 +45,11 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    private void validateUserDto (UserDTO usersDto) throws ValidationException {
-        if(isNull(usersDto)) {
-            throw new ValidationException("Object user is null");
-        }
 
-        if(isNull(usersDto.getEmail()) || usersDto.getEmail().isEmpty()) {
-            throw new ValidationException("Email is empty");
-        }
-
-        if(isNull(usersDto.getPassword()) || usersDto.getPassword().isEmpty()) {
-            throw new ValidationException("Password is empty");
-        }
+    public List<UserDTO> findByName(String query) {
+        return userRepository.findByEmail("%" + query + "%").stream()
+                .map(mapper::userToDTO)
+                .collect(Collectors.toList());
     }
 
     public UserDTO getAuthorizedUser() {

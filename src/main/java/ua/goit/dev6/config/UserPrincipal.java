@@ -1,19 +1,14 @@
 package ua.goit.dev6.config;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-import ua.goit.dev6.account.RoleDAO;
 import ua.goit.dev6.account.UserDAO;
-import ua.goit.dev6.account.UserDTO;
-import ua.goit.dev6.account.UserRepository;
+import ua.goit.dev6.roles.RoleDAO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 public class UserPrincipal implements UserDetails {
@@ -22,7 +17,7 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<SimpleGrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        Set<RoleDAO> roles = user.getRoles();
+        List<RoleDAO> roles = user.getRoles();
         for (RoleDAO role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }

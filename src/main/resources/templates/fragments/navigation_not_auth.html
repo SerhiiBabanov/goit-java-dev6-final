@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/css/navbar_style.css}" rel="stylesheet">
+</head>
+<body>
+
+<div class="header clearfix" th:fragment="header">
+    <div class="mt-2 text-center border-bottom">
+        <img th:src="@{/css/logo.png}" alt="" class="invert"> <br>
+        <p class="myFont">My notes</p>
+    </div>
+    <nav class="navbar-expand-md border-bottom">
+        <div class="text-center mt-0 collapse navbar-collapse">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">about</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">contact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">log in</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+</div>
+
+</body>
+</html>

@@ -1,17 +1,16 @@
 package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.stereotype.Component;
+import lombok.*;
 import ua.goit.dev6.note.NoteDAO;
+import ua.goit.dev6.roles.RoleDAO;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "users")
-@Data
 public class UserDAO {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -31,7 +30,6 @@ public class UserDAO {
     @JoinTable(name = "user_role_relation",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<RoleDAO> roles = new LinkedHashSet<>();
-
+    private List<RoleDAO> roles = new ArrayList<>();
 
 }
