@@ -2,30 +2,29 @@ package ua.goit.dev6.signin;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ua.goit.dev6.account.UserDAO;
+import ua.goit.dev6.account.UserDTO;
+import ua.goit.dev6.account.UserService;
 
 @RequiredArgsConstructor
 @Controller
-public class UserController {
-    private final UsersService userService;
+public class SigninController {
+    private final UserService userService;
 
     private final SecurityServiceImpl securityService;
 
     private final UserValidator userValidator;
 
-    private final UserDetailsService userDetailsService;
+   // private final UserDetailsService userDetailsService;
 
-    private final AuthenticationManager authenticationManager;
+    //private final AuthenticationManager authenticationManager;
 
     @GetMapping("/registration")
     public String registration(Model model) {
@@ -34,20 +33,20 @@ public class UserController {
             return "redirect:/";
         }
 
-        model.addAttribute("userForm", new UserDAO());
+        model.addAttribute("userForm", new UserDTO());
 
         return "signin/registration";
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") UserDAO userForm, BindingResult bindingResult,
+    public String registration(@ModelAttribute("userForm") UserDTO userForm, BindingResult bindingResult,
                                HttpServletRequest request) {
         userValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
             return "signin/registration";
         }
-        userService.saveUser(userForm);
-        securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm(), request);
+        userService.save(userForm);
+        securityService.autoLogin(userForm.getEmail(), userForm.getPasswordConfirm(), request);
         return "redirect:/";
     }
 
@@ -62,9 +61,6 @@ public class UserController {
 
         if (logout != null)
             model.addAttribute("message", "You have been logged out successfully.");
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean authenticated = authentication.isAuthenticated();
 
         return "signin/login";
     }

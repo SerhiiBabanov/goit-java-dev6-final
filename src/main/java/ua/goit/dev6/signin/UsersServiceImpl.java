@@ -24,7 +24,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public List<UserDAO> findByName(String query) {
-        return userRepository.findByUsername("%" + query + "%").stream()
+        return userRepository.findByEmail("%" + query + "%").stream()
                 .collect(Collectors.toList());
     }
 }

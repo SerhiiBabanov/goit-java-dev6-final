@@ -9,4 +9,5 @@ public interface UserService {
     List<UserDTO> listAll();
     UserDTO getById(UUID id);
     void deleteById(UUID id);
+    List<UserDTO> findByName(String name);
 }

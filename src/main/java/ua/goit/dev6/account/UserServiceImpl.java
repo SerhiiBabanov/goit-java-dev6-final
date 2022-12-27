@@ -41,4 +41,11 @@ public class UserServiceImpl implements UserService {
         getById(id);
         userRepository.deleteById(id);
     }
+
+    @Override
+    public List<UserDTO> findByName(String query) {
+        return userRepository.findByEmail("%" + query + "%").stream()
+                .map(mapper::userToDTO)
+                .collect(Collectors.toList());
+    }
 }

@@ -1,7 +1,7 @@
 <!doctype html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <title>Signup</title>
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -16,9 +16,9 @@
     <form method="POST" class="form-signin" th:object="${userForm}" th:action="@{/registration}">
         <h2 class="form-signin-heading">Create your account</h2>
         <div class="form-group">
-            <input type="text" th:field="*{username}" class="form-control" placeholder="Email"
+            <input type="text" th:field="*{email}" class="form-control" placeholder="Email"
                    autofocus="true">
-            <span class="has-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+            <span class="has-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         </div>
 
         <div class="form-group">

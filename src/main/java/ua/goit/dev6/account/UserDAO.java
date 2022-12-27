@@ -33,7 +33,4 @@ public class UserDAO {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RoleDAO> roles = new LinkedHashSet<>();
 
-
-    @Transient
-    private String passwordConfirm;
 }
