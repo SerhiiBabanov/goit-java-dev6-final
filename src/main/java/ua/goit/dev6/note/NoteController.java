@@ -3,6 +3,7 @@ package ua.goit.dev6.note;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -42,7 +43,10 @@ public class NoteController {
     }
 
     @PostMapping
-    private String save(@Validated @ModelAttribute("note") NoteDTO note){
+    private String save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult result){
+        if (result.hasErrors()) {
+            return "notes/createNoteForm";
+        }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
         return "redirect:/notes";
