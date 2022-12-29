@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.goit.dev6.account.UserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -58,6 +59,9 @@ public class NoteController {
     private String save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult result){
         if (result.hasErrors()) {
             return "notes/createNoteForm";
+        }
+        if (Objects.nonNull(note.getId())){
+            note.setId(null);
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
