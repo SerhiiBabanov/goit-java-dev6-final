@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}"
+      lang="en">
+<head>
+    <title>Public Note</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
+        <h1>Public note</h1>
+        <h3>
+            Name - <span th:text="${note.name}"></span><br><br>
+        </h3>
+        <h3>
+            Content:<br><br>
+        </h3>
+        <span th:text="${note.content}"></span>
+    </div>
+</section>
+</body>
+</html>

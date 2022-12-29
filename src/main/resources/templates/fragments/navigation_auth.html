@@ -18,10 +18,10 @@
         <div class="text-center mt-0 collapse navbar-collapse">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/note/list}">notes</a>
+                    <a class="nav-link active" th:href="@{/notes}">notes</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link active" th:href="@{/users/list}">users</a>
+                    <a class="nav-link active" th:href="@{/users}">users</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/about}">about</a>
