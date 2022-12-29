@@ -10,14 +10,14 @@
 <section layout:fragment="content">
     <div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
         <h1>Edit note</h1>
-        <form th:action="@{/notes}"  th:object="${note}" method="POST">
+        <form th:action="@{/notes}" th:object="${note}" method="POST">
             <div class="form-group">
                 <label> Title: </label>
-                <input type="text"  th:field="*{name}"  name="name" class="form-control">
+                <input type="text" th:field="*{name}" name="name" class="form-control">
             </div>
             <div class="form-group">
                 <label> Content: </label>
-                <textarea rows="15"  th:field="*{content}"  name="content" class="form-control"></textarea><br>
+                <textarea rows="15" th:field="*{content}" name="content" class="form-control"></textarea><br>
             </div>
             <div class="form-check">
                 <label class="form-check-label"> Public </label>
@@ -31,7 +31,10 @@
             </div>
             <div>
                 <input name="id" type="hidden" th:field="*{id}">
-                <button type="submit" class="btn btn-primary">Save changes</button>
+                <button class="btn btn-secondary update_data" type="submit" name="update_data"
+                        th:attr="resource=|/notes/${note.id}|">
+                    Save changes
+                </button>
             </div>
         </form>
         <form th:action="@{/notes}" method="GET">
@@ -40,5 +43,43 @@
     </div>
 
 </section>
+<th:block layout:fragment="script">
+    <script>
+        var putMethod = (event) => {
+            event.preventDefault();
+
+            var button = document.querySelectorAll("[name=update_data]");
+            var url = button[0].getAttribute("resource")
+
+            var body = {};
+            body[document.getElementById("id").name] = document.getElementById("id").value;
+            body[document.getElementById("name").name] = document.getElementById("name").value;
+            body[document.getElementById("content").name] = document.getElementById("content").value;
+            var radioButtons = document.querySelectorAll("[type=radio]");
+            radioButtons.forEach(e => {
+                if (e.checked) {
+                    body[e.name] = e.value;
+                }
+
+            })
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", url);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    var button = document.querySelectorAll("[name=update_data]");
+                    button[0].innerHTML = "Saved!"
+                } else {
+                    console.log(xhr.status, xhr.responseText);
+                }
+            }
+            xhr.send(JSON.stringify(body));
+        }
+
+        document.querySelectorAll("[name=update_data]").forEach(element => {
+            element.addEventListener("click", putMethod);
+        })
+    </script>
+</th:block>
 </body>
 </html>

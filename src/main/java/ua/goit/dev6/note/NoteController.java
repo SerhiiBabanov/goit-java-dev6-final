@@ -51,6 +51,15 @@ public class NoteController {
         noteService.save(note);
         return "redirect:/notes";
     }
+    @PutMapping("/{id}")
+    private String update(@Validated @RequestBody NoteDTO note, BindingResult result, @PathVariable("id") UUID id){
+        if (result.hasErrors()) {
+            return "notes/createNoteForm";
+        }
+        note.setUser(userService.getAuthorizedUser());
+        noteService.save(note);
+        throw new ResponseStatusException(HttpStatus.OK, "Note Updated");
+    }
 
     @DeleteMapping("/{id}")
     private void delete(@PathVariable("id") UUID id) {
