@@ -24,7 +24,8 @@ public class NoteController {
     @GetMapping
     private ModelAndView findAll(){
         ModelAndView result = new ModelAndView("notes/notes");
-        List<NoteDTO> notes = noteService.findAll();
+        UUID authorizedUserId = userService.getAuthorizedUser().getId();
+        List<NoteDTO> notes = noteService.findByUserId(authorizedUserId);
         result.addObject("notes", notes);
         return result;
     }
