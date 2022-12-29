@@ -22,7 +22,7 @@ public class NoteDAO {
 
     @Column(name = "content", nullable = false, length = 9600)
     private String content;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "access_type", nullable = false, length = 20)
     private AccessType accessType;
 
