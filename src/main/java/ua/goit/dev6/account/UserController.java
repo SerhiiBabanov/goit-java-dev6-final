@@ -2,7 +2,9 @@ package ua.goit.dev6.account;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -10,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.goit.dev6.roles.RoleService;
 import ua.goit.dev6.signup.UserValidator;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.UUID;
@@ -19,6 +22,7 @@ import java.util.UUID;
 @Controller
 @Slf4j
 public class UserController {
+    private final PasswordEncoder passwordEncoder;
     private final UserService userService;
     private final RoleService roleService;
     private final UserValidator userValidator;

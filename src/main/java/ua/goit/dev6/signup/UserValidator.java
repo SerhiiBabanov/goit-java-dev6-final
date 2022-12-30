@@ -30,9 +30,7 @@ public class UserValidator implements Validator {
         if (!pattern.matcher(user.getEmail()).matches()) {
             errors.rejectValue("email", "Check.correct.email");
         }
-//        if (user.getUsername().length() < 5 || user.getUsername().length() > 50) {
-//            errors.rejectValue("username", "Size.userForm.username");
-//        }
+
         if (!userService.findByName(user.getEmail()).isEmpty()) {
             errors.rejectValue("email", "Duplicate.userForm.username");
         }

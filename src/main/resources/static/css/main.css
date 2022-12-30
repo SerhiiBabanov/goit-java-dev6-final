@@ -16,7 +16,9 @@ padding-top: 10px;
     padding: 15px;
     margin: 0 auto;
 }
-
+.form-heading {
+    color: white;
+}
 .form-signin .form-signin-heading,
 .form-signin .checkbox {
     margin-bottom: 10px;
@@ -24,6 +26,10 @@ padding-top: 10px;
 
 .form-signin .checkbox {
     font-weight: normal;
+}
+
+.form-signin-heading {
+    color: white;
 }
 
 .form-signin .form-control {
@@ -52,4 +58,12 @@ padding-top: 10px;
 
 .has-error {
     color: red
+}
+
+.form-massage {
+    color: white;
+}
+
+.text-href {
+    color: white;
 }
