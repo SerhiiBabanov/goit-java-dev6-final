@@ -47,7 +47,7 @@ public class UserService {
 
 
     public List<UserDTO> findByName(String query) {
-        return userRepository.findByEmail("%" + query + "%").stream()
+        return userRepository.findByEmail(query).stream()
                 .map(mapper::userToDTO)
                 .collect(Collectors.toList());
     }
