@@ -35,6 +35,7 @@ public class WebSecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/registration", "/login").permitAll()
+                        .requestMatchers("/contact","/about").permitAll()
                         .requestMatchers("/css/*", "/js/*").permitAll()
                         //line below add only for test purposes, after adding page with public notes this should be deleted
                         .requestMatchers("/testaccess").hasRole("ROLE_USER")
