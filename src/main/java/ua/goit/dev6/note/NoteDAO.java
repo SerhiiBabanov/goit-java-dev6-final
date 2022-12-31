@@ -27,6 +27,7 @@ public class NoteDAO {
 
     @Column(name = "access_type", nullable = false, length = 20)
     @NotNull(message = "Note should have access type")
+    @Enumerated(EnumType.STRING)
     private AccessType accessType;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

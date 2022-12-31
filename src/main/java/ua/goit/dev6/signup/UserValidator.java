@@ -26,6 +26,12 @@ public class UserValidator implements Validator {
     public void validate(Object o, Errors errors) {
         UserDTO user = (UserDTO) o;
 
+        validateEmail(user, errors);
+        validatePassword(user, errors);
+    }
+
+    public void validateEmail(UserDTO user, Errors errors) {
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "NotEmpty");
         if (!pattern.matcher(user.getEmail()).matches()) {
             errors.rejectValue("email", "Check.correct.email");
@@ -36,6 +42,9 @@ public class UserValidator implements Validator {
         if (!userService.findByName(user.getEmail()).isEmpty()) {
             errors.rejectValue("email", "Duplicate.userForm.username");
         }
+    }
+
+    public void validatePassword(UserDTO user, Errors errors) {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty");
         if (user.getPassword().length() < 8 || user.getPassword().length() > 100) {
