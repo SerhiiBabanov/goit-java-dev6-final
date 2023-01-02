@@ -2,6 +2,7 @@ package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 import ua.goit.dev6.note.NoteDAO;
 import ua.goit.dev6.roles.RoleDAO;
 
@@ -13,7 +14,8 @@ import java.util.*;
 @Table(name = "users")
 public class UserDAO {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(name = "id", nullable = false)
     private UUID id;
 

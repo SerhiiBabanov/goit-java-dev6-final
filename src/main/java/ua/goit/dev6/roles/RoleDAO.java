@@ -24,4 +24,8 @@ public class RoleDAO {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
     private Set<UserDAO> users = new LinkedHashSet<>();
 
+    @Override
+    public String toString() {
+        return name + ' ';
+    }
 }

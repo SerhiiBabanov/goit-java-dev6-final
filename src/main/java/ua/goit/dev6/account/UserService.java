@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static java.util.Objects.isNull;
 
 @Service
 @AllArgsConstructor
@@ -23,9 +22,27 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserDTO save(UserDTO usersDto) {
+        if(usersDto.getId() == null) {
+            usersDto.setId(UUID.randomUUID());
+        }
         usersDto.setPassword(passwordEncoder.encode(usersDto.getPassword()));
-        UserDAO savedUser = userRepository.save(mapper.userToDao(usersDto));
+        UserDAO savedUser = userRepository.save(mapper.userToDAO(usersDto));
         return mapper.userToDTO(savedUser);
+    }
+
+    public UserDTO updateUserEmailAndRole(UserDTO userDTO) {
+        UserDTO updateUser = getById(userDTO.getId());
+        updateUser.setEmail(userDTO.getEmail());
+        updateUser.setRoles(userDTO.getRoles());
+        userRepository.save(mapper.userToDAO(updateUser));
+        return updateUser;
+    }
+
+    public UserDTO updateUserPassword(UserDTO updateUser) {
+        UserDTO userDTO = getById(updateUser.getId());
+        userDTO.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        userRepository.save(mapper.userToDAO(userDTO));
+        return userDTO;
     }
 
     public List<UserDTO> listAll() {
