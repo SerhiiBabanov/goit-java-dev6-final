@@ -27,6 +27,7 @@ create table notes
     id          uuid
         constraint note_pk PRIMARY KEY,
     name        VARCHAR(96)   NOT NULL,
+    category    VARCHAR(20)   NOT NULL,
     content     VARCHAR(9600) NOT NULL,
     access_type VARCHAR(20)   NOT NULL,
     user_id     uuid          NOT NULL,
