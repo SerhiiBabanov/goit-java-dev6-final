@@ -6,14 +6,17 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ua.goit.dev6.account.UserDTO;
+import ua.goit.dev6.account.UserRepository;
 import ua.goit.dev6.account.UserService;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 @Component
 public class UserValidator implements Validator {
     private final UserService userService;
+
 
     private static final String EMAIL_REGEX = "^[\\w-+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
     private static final Pattern pattern= Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
@@ -36,11 +39,14 @@ public class UserValidator implements Validator {
         if (!pattern.matcher(user.getEmail()).matches()) {
             errors.rejectValue("email", "Check.correct.email");
         }
-//        if (user.getUsername().length() < 5 || user.getUsername().length() > 50) {
-//            errors.rejectValue("username", "Size.userForm.username");
-//        }
+
         if (!userService.findByName(user.getEmail()).isEmpty()) {
-            errors.rejectValue("email", "Duplicate.userForm.username");
+            List<UserDTO> listUser = userService.findByName(user.getEmail());
+            if (!listUser.isEmpty()) {
+                if(!listUser.get(0).getId().equals(user.getId())){
+                    errors.rejectValue("email", "Duplicate.userForm.username");
+                }
+            }
         }
     }
 

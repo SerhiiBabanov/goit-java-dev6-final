@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -34,6 +35,7 @@ public class WebSecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/registration", "/login").permitAll()
+                        .requestMatchers("/contact","/about").permitAll()
                         .requestMatchers("/css/*", "/js/*").permitAll()
                         //line below add only for test purposes, after adding page with public notes this should be deleted
                         .requestMatchers("/testaccess").hasRole("ROLE_USER")
@@ -42,15 +44,14 @@ public class WebSecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
-                        .defaultSuccessUrl("/note/list",false)
+                        .defaultSuccessUrl("/note/list", false)
                 )
                 .exceptionHandling((exception) ->
                         exception.accessDeniedHandler(accessDeniedHandler())
                 )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
-                        .permitAll()
-                        .logoutSuccessUrl("/login"));
+                        .permitAll());
         return http.build();
 
     }

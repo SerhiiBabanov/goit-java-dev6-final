@@ -40,5 +40,11 @@ public class NoteService {
     public void deleteById(UUID id) {
         repository.deleteById(id);
     }
+
+    public List<NoteDTO> findByUserId(UUID id){
+        return repository.findByUser_Id(id).stream()
+                .map(mapper::noteToDTO)
+                .collect(Collectors.toList());
+    }
 }
 

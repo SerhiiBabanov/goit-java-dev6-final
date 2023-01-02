@@ -13,9 +13,30 @@
 .nav-item{
 	font-family: 'MyWebFont';
 	font-size:17px;
-	letter-spacing:1.5px;
-	color:white;
+	letter-spacing:1px;
+	color:#e0e0e0;
 	min-width:12vw;
+}
+
+.nav-item:hover{
+	color:#fff;
+}
+
+.dropdown-menu {
+	background:#fff;
+	opacity: 0.95;
+}
+.dropdown-toggle {
+	color:#e0e0e0;
+}
+
+.dropdown-toggle:hover {
+	color:#fff;
+}
+
+.dropdown-item:hover {
+	background: #cccccc;
+	color:#010136;
 }
 
 .myFooter{

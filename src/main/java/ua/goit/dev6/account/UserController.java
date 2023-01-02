@@ -30,10 +30,11 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String saveUser(@ModelAttribute(name = "userForm") UserDTO userDTO, BindingResult bindingResult) {
+    public String saveUser(@ModelAttribute(name = "userForm") UserDTO userDTO, BindingResult bindingResult, Model model) {
         log.info("Handling save users: " + userDTO);
         userValidator.validate(userDTO, bindingResult);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("roles", roleService.listAll());
             return "users/createUserForm";
         }
         userService.save(userDTO);
