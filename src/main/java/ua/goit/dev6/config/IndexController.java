@@ -14,7 +14,7 @@ public class IndexController {
 
     @GetMapping("/accessdenied")
     public String deniedPage() {
-        return "errors/forbidden";
+        return "errors/nopermit";
     }
 
     //add only for test purposes, after adding page with public notes this should be deleted
