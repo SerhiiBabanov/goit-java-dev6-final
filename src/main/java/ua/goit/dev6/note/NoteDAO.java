@@ -19,7 +19,9 @@ public class NoteDAO {
 
     @Column(name = "name", nullable = false, length = 96)
     private String name;
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category", nullable = false, length = 20)
+    private Category category;
     @Column(name = "content", nullable = false, length = 9600)
     private String content;
 

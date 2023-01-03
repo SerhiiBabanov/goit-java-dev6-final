@@ -28,6 +28,7 @@
                 <thead>
                 <tr>
                     <th>Title</th>
+                    <th>Category</th>
                     <th>Content</th>
                     <th>Access</th>
                     <th colspan="3" style="width:15%; max-width:200px; text-align:center">Notes managing</th>
@@ -36,19 +37,23 @@
                 <tbody>
                 <tr th:each="note : ${notes}">
                     <td th:text="${note.name}"></td>
+                    <td th:text="${note.category}"></td>
                     <td th:text="${note.content}"
                         style="max-width:150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></td>
                     <td th:text="${note.accessType}"></td>
                     <td colspan="3" style="display:flex; justify-content:space-around; max-width:200px">
-                        <button th:attr="onclick=|makeDELETErequest('/notes/${note.id}')|">
+                        <button class="btn btn-light" title="Delete"
+                                th:attr="onclick=|makeDELETErequest('/notes/${note.id}')|">
                             <img src="/icons/trash.png" alt="deleteButton"
                                  style="border:0; width:30px; height:30px"/>
                         </button>
-                        <a class="btn btn-secondary" th:href="@{/notes/{id}(id=${note.id})}">
+                        <a class="btn btn-light" title="Edit"
+                                th:href="@{/notes/{id}(id=${note.id})}">
                             <img src="/icons/edit.png"
                                  alt="editButton"
                                  style="border:0; width:30px; height:30px"/></a>
-                        <button type="submit" th:attr="onclick=|copy('/${note.id}')|">
+                        <button class="btn btn-light" title="Copy link"
+                                type="submit" th:attr="onclick=|copy('/${note.id}')|">
                             <img src="/icons/link-alt.png" alt="copyLinkButton"
                                  style="border:0; width:30px; height:30px"/>
                         </button>
