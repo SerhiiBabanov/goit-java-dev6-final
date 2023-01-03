@@ -14,7 +14,7 @@
             <div class="form-group">
                 <label> Title: </label>
                 <input type="text" th:field="*{name}" class="form-control">
-                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
             <div class="form-group" style ="margin-top: 10px;">
                 <label> Category: </label>
