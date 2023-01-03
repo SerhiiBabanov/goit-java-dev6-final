@@ -44,7 +44,7 @@ public class WebSecurityConfig {
                 .formLogin((form) -> form
                         .loginPage("/login")
                         .permitAll()
-                        .defaultSuccessUrl("/note/list", false)
+                        .defaultSuccessUrl("/notes", true)
                 )
                 .exceptionHandling((exception) ->
                         exception.accessDeniedHandler(accessDeniedHandler())
