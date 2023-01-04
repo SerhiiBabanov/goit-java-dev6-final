@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import ua.goit.dev6.account.UserDTO;
 import ua.goit.dev6.account.UserService;
+import ua.goit.dev6.account.UserValidator;
 import ua.goit.dev6.roles.RoleService;
 import ua.goit.dev6.signin.SecurityService;
 

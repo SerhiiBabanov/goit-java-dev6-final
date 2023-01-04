@@ -1,13 +1,10 @@
-package ua.goit.dev6.signup;
+package ua.goit.dev6.account;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ua.goit.dev6.account.UserDTO;
-import ua.goit.dev6.account.UserService;
-
 
 import java.util.regex.Pattern;
 

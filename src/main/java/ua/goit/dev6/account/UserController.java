@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import ua.goit.dev6.roles.RoleService;
-import ua.goit.dev6.signup.UserValidator;
 
 import java.util.UUID;
 
