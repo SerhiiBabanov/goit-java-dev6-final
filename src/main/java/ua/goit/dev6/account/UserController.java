@@ -2,6 +2,7 @@ package ua.goit.dev6.account;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import ua.goit.dev6.roles.RoleService;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Secured(value = {"ROLE_ADMIN"})
 @RequestMapping("/users")
 @Controller
 @Slf4j
@@ -72,6 +74,7 @@ public class UserController {
         return "redirect:/users/list";
     }
 
+//    @Secured(value = {"ROLE_ADMIN"})
     @GetMapping("/list")
     public ModelAndView findAllUsers() {
         log.info("Handling find all users request");

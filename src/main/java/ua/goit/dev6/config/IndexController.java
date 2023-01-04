@@ -9,4 +9,9 @@ public class IndexController {
     public String homepage() {
         return "redirect:/notes";
     }
+
+    @GetMapping("/accessdenied")
+    public String deniedPage() {
+        return "error/nopermission";
+    }
 }
