@@ -22,6 +22,7 @@ public class NoteController {
     private final UserService userService;
 
 
+
     @GetMapping
     private ModelAndView findAll(){
         ModelAndView result = new ModelAndView("notes/notes");
@@ -42,12 +43,7 @@ public class NoteController {
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = note.getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
-            if (note.getAccessType().equals(AccessType.PRIVATE)){
-                return new ModelAndView("errors/forbidden");
-            }
-            if (note.getAccessType().equals(AccessType.PUBLIC)){
-                return new ModelAndView("notes/publicNote").addObject("note", note);
-            }
+            return new ModelAndView("error/forbidden");
         }
 
         ModelAndView result = new ModelAndView("notes/editNoteForm");
@@ -56,16 +52,18 @@ public class NoteController {
     }
 
     @PostMapping
-    private String save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult result){
-        if (result.hasErrors()) {
-            return "notes/createNoteForm";
+    private ModelAndView save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            ModelAndView model = new ModelAndView("error/noteCreateError");
+            model.addObject("errors", bindingResult.getFieldErrors());
+            return model;
         }
         if (Objects.nonNull(note.getId())){
             note.setId(null);
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
-        return "redirect:/notes";
+        return findAll();
     }
     @PutMapping("/{id}")
     private String update(@Validated @RequestBody NoteDTO note, BindingResult result, @PathVariable("id") UUID id){
@@ -75,7 +73,7 @@ public class NoteController {
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = noteService.findById(id).getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
-            return "errors/forbidden";
+            return "error/forbidden";
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
@@ -87,6 +85,16 @@ public class NoteController {
         noteService.deleteById(id);
         throw new ResponseStatusException(HttpStatus.OK, "Note deleted");
     }
+
+    @GetMapping("/share/{id}")
+    private ModelAndView getPublicNote(@PathVariable("id") UUID id) {
+        NoteDTO note = noteService.findById(id);
+        if (note.getAccessType().equals(AccessType.PUBLIC)){
+            return new ModelAndView("notes/publicNote").addObject("note", note);
+        }
+        return new ModelAndView("error/forbidden");
+    }
+
     @ModelAttribute("note")
     private NoteDTO getDefaultProduct() {
         return new NoteDTO();
