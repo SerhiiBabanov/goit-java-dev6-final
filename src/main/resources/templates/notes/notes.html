@@ -5,6 +5,7 @@
       lang="en">
 <head>
     <title>My Notes</title>
+    <script src="/js/filter.js"></script>
 </head>
 <body>
 <div>
@@ -24,14 +25,23 @@
                     Create note
                 </button>
             </form>
-            <table class="table table-striped">
+            <br>
+            <input  type="text" id="filter" placeholder="filter">
+            <table id="emp-table" class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Category</th>
-                    <th>Content</th>
-                    <th>Access</th>
-                    <th colspan="3" style="width:15%; max-width:200px; text-align:center">Notes managing</th>
+                    <th col-index=1>Title</th>
+                    <th col-index=2>Category
+                        <select class="table-filter" onchange="filter_rows()">
+                            <option value="all"></option>
+                        </select></th>
+                    <th col-index=3>Content</th>
+                    <th col-index=4>Access
+                        <select class="table-filter" onchange="filter_rows()">
+                            <option value="all"></option>
+                        </select></th>
+                    <th col-index=5 colspan="3" style="width:15%; max-width:200px; text-align:center">Notes managing
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,7 +58,7 @@
                                  style="border:0; width:30px; height:30px"/>
                         </button>
                         <a class="btn btn-light" title="Edit"
-                                th:href="@{/notes/{id}(id=${note.id})}">
+                           th:href="@{/notes/{id}(id=${note.id})}">
                             <img src="/icons/edit.png"
                                  alt="editButton"
                                  style="border:0; width:30px; height:30px"/></a>
@@ -83,6 +93,30 @@
 
                 }
             });
+        }
+    }
+
+    getUniqueValuesFromColumn()
+    document.getElementById('filter').addEventListener('keyup', debound(filter_table, 500))
+
+    function filter_table(e) {
+        const rows = document.querySelectorAll('tbody tr')
+        rows.forEach(row => {
+            row.style.display = (row.innerText.includes(e.target.value)) ? '' : 'none'
+        })
+    }
+
+    function debound(func, timeout) {
+        let timer
+        return (...args) => {
+            if (!timer) {
+                func.apply(this, args);
+            }
+            clearTimeout(timer)
+            timer = setTimeout(() => {
+                func.apply(this, args)
+                timer = undefined
+            }, timeout)
         }
     }
 </script>
