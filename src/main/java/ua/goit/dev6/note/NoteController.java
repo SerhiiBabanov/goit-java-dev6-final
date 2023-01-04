@@ -22,6 +22,7 @@ public class NoteController {
     private final UserService userService;
 
 
+
     @GetMapping
     private ModelAndView findAll(){
         ModelAndView result = new ModelAndView("notes/notes");
@@ -51,16 +52,18 @@ public class NoteController {
     }
 
     @PostMapping
-    private String save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult result){
-        if (result.hasErrors()) {
-            return "notes/createNoteForm";
+    private ModelAndView save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            ModelAndView model = new ModelAndView("error/noteCreateError");
+            model.addObject("errors", bindingResult.getFieldErrors());
+            return model;
         }
         if (Objects.nonNull(note.getId())){
             note.setId(null);
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
-        return "redirect:/notes";
+        return findAll();
     }
     @PutMapping("/{id}")
     private String update(@Validated @RequestBody NoteDTO note, BindingResult result, @PathVariable("id") UUID id){
