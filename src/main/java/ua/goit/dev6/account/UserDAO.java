@@ -2,7 +2,10 @@ package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
+import ua.goit.dev6.friend.FriendDAO;
 import ua.goit.dev6.note.NoteDAO;
 import ua.goit.dev6.roles.RoleDAO;
 
@@ -33,5 +36,13 @@ public class UserDAO {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleDAO> roles = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "friend")
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<FriendDAO> user = new HashSet<>();
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "friend")
+    @Fetch(FetchMode.SUBSELECT)
+    private Set<FriendDAO> friend  = new HashSet<>();
 
 }

@@ -20,6 +20,16 @@
                 <li class="nav-item">
                     <a class="nav-link active" th:href="@{/notes}">notes</a>
                 </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" th:href="@{/}" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Friends
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/friends">my friends</a></li>
+                        <li><a class="dropdown-item" href="/friends/add">add friend</a></li>
+                        <li><a class="dropdown-item" href="/friends/delete">delete friend</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link active" th:href="@{/users/list}">users</a>
                 </li>
