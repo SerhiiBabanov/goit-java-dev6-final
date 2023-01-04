@@ -16,7 +16,7 @@ public class NoteDTO {
     @Size(min = 4, message = "{validation.name.size.too_short}")
     @Size(max = 100, message = "{validation.name.size.too_long}")
     private String name;
-    @NotNull(message = "{validation.name.asses}")
+    @NotNull(message = "{validation.name.category}")
     private Category category;
     private String content;
     @NotNull(message = "{validation.name.asses}")
