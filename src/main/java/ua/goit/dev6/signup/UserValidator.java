@@ -6,10 +6,9 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ua.goit.dev6.account.UserDTO;
-import ua.goit.dev6.account.UserRepository;
 import ua.goit.dev6.account.UserService;
 
-import java.util.List;
+
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
@@ -40,13 +39,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "Check.correct.email");
         }
 
-        if (!userService.findByName(user.getEmail()).isEmpty()) {
-            List<UserDTO> listUser = userService.findByName(user.getEmail());
-            if (!listUser.isEmpty()) {
-                if(!listUser.get(0).getId().equals(user.getId())){
-                    errors.rejectValue("email", "Duplicate.userForm.username");
-                }
-            }
+        if (userService.findByEmail(user.getEmail()).isPresent()) {
+            errors.rejectValue("email", "Duplicate.userForm.username");
         }
     }
 
