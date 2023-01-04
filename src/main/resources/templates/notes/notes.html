@@ -53,7 +53,7 @@
                                  alt="editButton"
                                  style="border:0; width:30px; height:30px"/></a>
                         <button class="btn btn-light" title="Copy link"
-                                type="submit" th:attr="onclick=|copy('/${note.id}')|">
+                                type="submit" th:attr="onclick=|copy('/share/${note.id}')|">
                             <img src="/icons/link-alt.png" alt="copyLinkButton"
                                  style="border:0; width:30px; height:30px"/>
                         </button>
@@ -67,9 +67,6 @@
 
 <script layout:fragment="script">
     function copy(id) {
-        // var copiedtext = document.getElementById(id);
-        // copiedtext.select();
-        // copiedtext.setSelectionRange(0, 99999); //for mobile devices
         navigator.clipboard.writeText(window.location.href + id);
         alert("You just copied " + window.location.href + id);
     }

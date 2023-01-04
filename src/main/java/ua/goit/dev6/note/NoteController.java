@@ -42,12 +42,7 @@ public class NoteController {
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = note.getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
-            if (note.getAccessType().equals(AccessType.PRIVATE)){
-                return new ModelAndView("error/forbidden");
-            }
-            if (note.getAccessType().equals(AccessType.PUBLIC)){
-                return new ModelAndView("notes/publicNote").addObject("note", note);
-            }
+            return new ModelAndView("error/forbidden");
         }
 
         ModelAndView result = new ModelAndView("notes/editNoteForm");
@@ -87,6 +82,16 @@ public class NoteController {
         noteService.deleteById(id);
         throw new ResponseStatusException(HttpStatus.OK, "Note deleted");
     }
+
+    @GetMapping("/share/{id}")
+    private ModelAndView getPublicNote(@PathVariable("id") UUID id) {
+        NoteDTO note = noteService.findById(id);
+        if (note.getAccessType().equals(AccessType.PUBLIC)){
+            return new ModelAndView("notes/publicNote").addObject("note", note);
+        }
+        return new ModelAndView("error/forbidden");
+    }
+
     @ModelAttribute("note")
     private NoteDTO getDefaultProduct() {
         return new NoteDTO();
