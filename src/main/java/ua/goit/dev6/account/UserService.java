@@ -38,7 +38,12 @@ public class UserService {
         userRepository.save(mapper.userToDAO(updateUser));
         return updateUser;
     }
-
+    public UserDTO updateUserPassword(UserDTO updateUser) {
+        UserDTO userDTO = getById(updateUser.getId());
+        userDTO.setPassword(passwordEncoder.encode(updateUser.getPassword()));
+        userRepository.save(mapper.userToDAO(userDTO));
+        return userDTO;
+    }
     public List<UserDTO> listAll() {
         return userRepository.findAll()
                 .stream()
