@@ -43,7 +43,7 @@ public class NoteController {
         UUID ownerId = note.getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
             if (note.getAccessType().equals(AccessType.PRIVATE)){
-                return new ModelAndView("errors/forbidden");
+                return new ModelAndView("error/forbidden");
             }
             if (note.getAccessType().equals(AccessType.PUBLIC)){
                 return new ModelAndView("notes/publicNote").addObject("note", note);
@@ -75,7 +75,7 @@ public class NoteController {
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = noteService.findById(id).getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
-            return "errors/forbidden";
+            return "error/forbidden";
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
