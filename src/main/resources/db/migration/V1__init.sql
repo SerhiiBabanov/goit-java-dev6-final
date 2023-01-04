@@ -32,6 +32,6 @@ create table notes
     user_id     uuid          NOT NULL,
     FOREIGN KEY (user_id)
         REFERENCES users ON DELETE CASCADE,
-    UNIQUE (name, user_id)
+    constraint note_name_uniq UNIQUE (name, user_id)
 );
 
