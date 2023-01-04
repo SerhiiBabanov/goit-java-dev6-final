@@ -9,6 +9,7 @@ import ua.goit.dev6.EntityMapper;
 import ua.goit.dev6.exception.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,7 +23,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     public UserDTO save(UserDTO usersDto) {
-        if(usersDto.getId() == null) {
+        if (usersDto.getId() == null) {
             usersDto.setId(UUID.randomUUID());
         }
         usersDto.setPassword(passwordEncoder.encode(usersDto.getPassword()));
@@ -38,13 +39,6 @@ public class UserService {
         return updateUser;
     }
 
-    public UserDTO updateUserPassword(UserDTO updateUser) {
-        UserDTO userDTO = getById(updateUser.getId());
-        userDTO.setPassword(passwordEncoder.encode(updateUser.getPassword()));
-        userRepository.save(mapper.userToDAO(userDTO));
-        return userDTO;
-    }
-
     public List<UserDTO> listAll() {
         return userRepository.findAll()
                 .stream()
@@ -58,21 +52,22 @@ public class UserService {
     }
 
     public void deleteById(UUID id) {
-        getById(id);
         userRepository.deleteById(id);
     }
 
 
-    public List<UserDTO> findByName(String query) {
-        return userRepository.findByEmail(query).stream()
-                .map(mapper::userToDTO)
-                .collect(Collectors.toList());
+    public Optional<UserDTO> findByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .map(mapper::userToDTO);
+    }
+
+    public boolean checkPassword(String password) {
+        return passwordEncoder.matches(password, getAuthorizedUser().getPassword());
     }
 
     public UserDTO getAuthorizedUser() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        UserDTO user = userRepository.findByEmail(userDetails.getUsername()).map(mapper::userToDTO)
+        return userRepository.findByEmail(userDetails.getUsername()).map(mapper::userToDTO)
                 .orElseThrow(() -> new NotFoundException("Error with getting autorized user"));
-        return user;
     }
 }
