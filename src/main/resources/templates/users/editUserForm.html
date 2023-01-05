@@ -10,32 +10,133 @@
 <section layout:fragment="content">
 <div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
     <h1>Edit user</h1>
-    <form th:action="@{/users/updateUserOpenData}" th:object="${userForm}" method="POST">
-        <input hidden="hidden" th:field="*{id}"/>
+    <form th:action="@{/users}" th:object="${user}" method="POST">
+        <input hidden="hidden" th:field="*{id}"  class="form-control"/>
         <div class="form-group">
             <label> New user email: </label>
-            <input type="text"  th:field="*{email}"  name="email" class="form-control">
+            <input type="text"  th:field="*{email}" class="form-control">
             <span class="has-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         </div>
-        <input hidden="hidden" th:field="*{password}"/>
-        <input hidden="hidden" th:field="*{passwordConfirm}"/>
+        <input hidden="hidden"   th:field="*{password}"   class="form-control"/>
+        <input hidden="hidden" th:field="*{passwordConfirm}" class="form-control"/>
         <div class="form-group">
-        <label> Roles:
-            <input type="checkbox" name="roles"
-                   th:each="role : ${roles}"
-                   th:text="${role.name}"
-                   th:value="${role.id}"
-                   th:field="*{roles}"/>
-        </label>
+            <label>Roles:
+                <input type="checkbox"
+                       th:each="role : ${roles}"
+                       th:text="${role.name}"
+                       th:attr="nameRole=|${role.name}|"
+                       th:value="${role.id}"
+                       th:field="*{roles}"
+                />
+            </label>
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <!--button class = "btn btn-primary update_data" type="submit" name="update_data"
+                    th:attr="onclick=|/users/${user.id}|">Save changes</button-->
+            <button type="submit" name="update_data" class="btn btn-primary">Save changes</button>
         </div>
     </form>
-    <form th:action="@{/users/list}" method="GET">
+    <form th:action="@{/users}" method="GET">
         <button class="btn btn-secondary" type="submit">Cancel</button>
     </form>
 </div>
 </section>
+<th:block layout:fragment="script">
+    <script>
+<!--        var putMethod = (event) => {-->
+<!--        event.preventDefault();-->
+<!--        var button = document.querySelectorAll("[name=update_data]");-->
+<!--        var url = button[0].getAttribute("resource")-->
+<!--        var messages = document.querySelectorAll("[class=form-control]");-->
+<!--        var body = {};-->
+<!--        var checkboxes = document.querySelectorAll('input[type=checkbox]');-->
+
+<!--            var roles = [];-->
+<!--            for (let i = 0; i < checkboxes.length; i++) {-->
+
+<!--                if (checkboxes[i].checked) {-->
+<!--                      roles[i] = {id: checkboxes[i].value};-->
+<!--                }-->
+<!--            }-->
+<!--            body["roles"] = roles;-->
+
+
+<!--        messages.forEach(element => {-->
+<!--        var name = element.getAttribute("name");-->
+<!--        if (element.tagName != "TEXTAREA") {-->
+<!--            var value = element.value;-->
+<!--        } else {-->
+<!--            // if element is textarea, value attribute may return null or undefined-->
+<!--            var value = element.innerHTML;-->
+<!--        }-->
+<!--        body[name] = value;-->
+<!--    })-->
+<!--        {-->
+<!--            var e = document.querySelectorAll("[class=form-select]")[0];-->
+<!--            if (typeof e !== 'undefined') {-->
+<!--                var name = e.getAttribute("name");-->
+<!--                body[name] = e.value;-->
+<!--            }-->
+<!--        }-->
+<!--        var xhr = new XMLHttpRequest();-->
+<!--        xhr.open("PUT", url);-->
+<!--        xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");-->
+<!--        xhr.onload = () => {-->
+<!--            if (xhr.status === 200) {-->
+<!--                var button = document.querySelectorAll("[name=update_data]");-->
+<!--                button[0].innerHTML = "Updated!"-->
+<!--            } else if (xhr.status === 403) {-->
+<!--                alert("Access denied!")-->
+<!--            } else {-->
+<!--                console.log(xhr.status, xhr.responseText);-->
+<!--            }-->
+<!--        }-->
+<!--        xhr.send(JSON.stringify(body));-->
+<!--    }-->
+
+<!--    document.querySelectorAll("[name=update_data]").forEach(element => {-->
+<!--        element.addEventListener("click", putMethod);-->
+<!--    })-->
+
+            var putMethod = (event) => {
+            event.preventDefault();
+
+            var url = "/users/" + document.getElementById("id").value;
+
+            var body = {};
+            body["id"] = document.getElementById("id").value;
+            body["email"] = document.getElementById("email").value;
+            body["password"] = document.getElementById("password").value;
+            body["passwordConfirm"] = document.getElementById("passwordConfirm").value;
+            var checkboxes = document.querySelectorAll('input[type=checkbox]');
+            var roles = [];
+            for (let i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    var role = {};
+                    role["name"] = checkboxes[i].getAttribute("nameRole");
+                    role["id"] = checkboxes[i].value;
+                    roles.push(role);
+                }
+            }
+            body["roles"] = roles;
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", url);
+            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
+            xhr.onload = () => {
+                if (xhr.status === 200) {
+                    var button = document.querySelectorAll("[name=update_data]");
+                    button[0].innerHTML = "Saved!"
+                } else {
+                    console.log(xhr.status, xhr.responseText);
+                }
+            }
+            xhr.send(JSON.stringify(body));
+        }
+
+        document.querySelectorAll("[name=update_data]").forEach(element => {
+            element.addEventListener("click", putMethod);
+        })
+    </script>
+</th:block>
 </body>
 </html>

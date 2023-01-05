@@ -1,5 +1,6 @@
 package ua.goit.dev6.roles;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import ua.goit.dev6.account.UserDAO;
@@ -22,6 +23,7 @@ public class RoleDAO {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    @JsonIgnore
     private Set<UserDAO> users = new LinkedHashSet<>();
 
     @Override
