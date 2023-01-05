@@ -26,4 +26,12 @@ public class FriendDAO {
         this.friend = friend;
     }
 
+//    public void setUser(UserDAO user) {
+//        this.user = user;
+//    }
+//
+//    public void setFriend(UserDAO friend) {
+//        this.friend = friend;
+//    }
+
 }
