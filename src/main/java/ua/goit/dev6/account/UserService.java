@@ -10,6 +10,7 @@ import ua.goit.dev6.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -74,5 +75,10 @@ public class UserService {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userRepository.findByEmail(userDetails.getUsername()).map(mapper::userToDTO)
                 .orElseThrow(() -> new NotFoundException("Error with getting autorized user"));
+    }
+
+    public List<UserDTO> allFriend(UserDTO user){
+        UserDAO userDAO = mapper.userToDAO(user);
+        return userDAO.getFriend().stream().map(mapper::userToDTO).collect(Collectors.toList());
     }
 }

@@ -1,11 +1,11 @@
 package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
-import ua.goit.dev6.friend.FriendDAO;
 import ua.goit.dev6.note.NoteDAO;
 import ua.goit.dev6.roles.RoleDAO;
 
@@ -37,12 +37,18 @@ public class UserDAO {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleDAO> roles = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "friend")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "friend",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "friend_id"))
     @Fetch(FetchMode.SUBSELECT)
-    private Set<FriendDAO> user = new HashSet<>();
+    private Set<UserDAO> user = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "friend")
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "friend",
+            joinColumns = @JoinColumn(name = "friend_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     @Fetch(FetchMode.SUBSELECT)
-    private Set<FriendDAO> friend  = new HashSet<>();
+    private Set<UserDAO> friend  = new HashSet<>();
 
 }
