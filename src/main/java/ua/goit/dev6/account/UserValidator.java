@@ -6,13 +6,15 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
 @Component
 public class UserValidator implements Validator {
-    private final UserService userService;
 
+    private final UserService userService;
 
     private static final String EMAIL_REGEX = "^[\\w-+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
     private static final Pattern pattern= Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
@@ -36,8 +38,13 @@ public class UserValidator implements Validator {
             errors.rejectValue("email", "Check.correct.email");
         }
 
-        if (userService.findByEmail(user.getEmail()).isPresent()) {
-            errors.rejectValue("email", "Duplicate.userForm.username");
+        if (!userService.findByEmail(user.getEmail()).isEmpty()) {
+            Optional<UserDTO> userFromDB = userService.findByEmail(user.getEmail());
+            if (!userFromDB.isEmpty()) {
+                if (!userFromDB.get().getId().equals(user.getId())) {
+                    errors.rejectValue("email", "Duplicate.userForm.username");
+                }
+            }
         }
     }
 
