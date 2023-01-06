@@ -75,3 +75,22 @@ article{
 .text-href {
     color: white;
 }
+
+.myFooter{
+    font-family: 'MyWebFont';
+	font-size:11px;
+	letter-spacing:1.5px;
+	color:white;
+}
+
+.pictureStyle {
+	height: 150px;
+	border: 2px solid #e0e0e0;
+}
+
+.description {
+	font-family: 'MyWebFont';
+	letter-spacing:1px;
+	color:#e0e0e0;
+	font-size:15px;
+}
