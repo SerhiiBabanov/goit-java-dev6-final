@@ -74,7 +74,6 @@ public class UserController {
         return "redirect:/users/list";
     }
 
-//    @Secured(value = {"ROLE_ADMIN"})
     @GetMapping("/list")
     public ModelAndView findAllUsers() {
         log.info("Handling find all users request");

@@ -13,16 +13,17 @@
 </head>
 
 <body>
-
-<div sec:authorize="hasAnyRole('ROLE_ANONYMOUS')" th:replace="~{fragments/navigation_not_auth :: header}"></div>
-<div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" th:replace="~{fragments/navigation_auth :: header}"></div>
-
-<section layout:fragment="content">
-    It`s layout content
-</section>
-
-<footer class="footer fixed-bottom">
-    <p class="myFooter">© Group-1-final goit-dev6-java </p>
+<header>
+    <div sec:authorize="hasAnyRole('ROLE_ANONYMOUS')" th:replace="~{fragments/navigation_not_auth :: header}"></div>
+    <div sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER')" th:replace="~{fragments/navigation_auth :: header}"></div>
+</header>
+<article>
+    <section layout:fragment="content">
+        It`s layout content
+    </section>
+</article>
+<footer class="footer">
+    <p class="myFooter">© the java jedis: masters of the web applications</p>
 </footer>
 
 <th:block layout:fragment="script"></th:block>

@@ -2,15 +2,23 @@ body {
 padding-top: 10px;
 	background-image: url(/images/background.jpg);
 	background-size: cover;
-	width: 100%;
-	height: 100%;
-	/*position:fixed;
-	top:0;
-	left:0;*/
 	background-position: center center;
 	background-attachment: fixed;
+    min-height: 100vh;
+    margin:0;
+    display:flex;
+    flex-direction:column;
 }
-
+header{
+    min-height:50px;
+}
+footer{
+    min-height:50px;
+    color: white;
+}
+article{
+    flex:1;
+}
 .form-signin {
     max-width: 330px;
     padding: 15px;
@@ -66,4 +74,23 @@ padding-top: 10px;
 
 .text-href {
     color: white;
+}
+
+.myFooter{
+    font-family: 'MyWebFont';
+	font-size:11px;
+	letter-spacing:1.5px;
+	color:white;
+}
+
+.pictureStyle {
+	height: 150px;
+	border: 2px solid #e0e0e0;
+}
+
+.description {
+	font-family: 'MyWebFont';
+	letter-spacing:1px;
+	color:#e0e0e0;
+	font-size:15px;
 }
