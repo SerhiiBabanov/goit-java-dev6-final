@@ -41,16 +41,17 @@
             </div>
             <div>
                 <input name="id" type="hidden" th:field="*{id}">
-                <button class="btn btn-secondary update_data" type="submit" name="update_data"
+                <button class="btn btn-primary update_data" type="submit" name="update_data"
                         th:attr="resource=|/notes/${note.id}|"
-                        style="position:absolute; bottom:12px;right:95px">
+                        style="position:absolute; bottom:12px;right:150px">
                     Save changes
                 </button>
             </div>
         </form>
-        <form th:action="@{/notes}" method="GET">
-            <button class="btn btn-secondary" type="submit" style="position:absolute; bottom:12px;right:12px">Back to Notes</button>
-        </form>
+<!--        <form th:action="@{/notes}" method="GET">-->
+<!--            <button class="btn btn-secondary" type="submit" style="position:absolute; bottom:12px;right:12px">Back to Notes</button>-->
+            <a th:href="@{/notes}" class="btn btn-secondary" type="button"
+               style="position:absolute; bottom:12px;right:12px">Back to Notes</a>
     </div>
 
 </section>
