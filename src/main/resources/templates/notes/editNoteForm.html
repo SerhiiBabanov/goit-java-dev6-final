@@ -15,7 +15,7 @@
                 <label> Title: </label>
                 <input type="text" th:field="*{name}" name="name" class="form-control">
             </div>
-            <div class="form-group" style ="margin-top: 10px;">
+            <div class="form-group" style="margin-top: 10px;">
                 <label> Category: </label>
                 <select class="form-select" th:field="*{category}" id="category">
                     <option value="">select category</option>
@@ -41,16 +41,17 @@
             </div>
             <div>
                 <input name="id" type="hidden" th:field="*{id}">
-                <button class="btn btn-secondary update_data" type="submit" name="update_data"
+                <button class="btn btn-primary update_data" type="submit" name="update_data"
                         th:attr="resource=|/notes/${note.id}|"
-                        style="position:absolute; bottom:12px;right:95px">
+                        style="position:absolute; bottom:12px;right:150px">
                     Save changes
                 </button>
             </div>
         </form>
-        <form th:action="@{/notes}" method="GET">
-            <button class="btn btn-secondary" type="submit" style="position:absolute; bottom:12px;right:12px">Back to Notes</button>
-        </form>
+        <!--        <form th:action="@{/notes}" method="GET">-->
+        <!--            <button class="btn btn-secondary" type="submit" style="position:absolute; bottom:12px;right:12px">Back to Notes</button>-->
+        <a th:href="@{/notes}" class="btn btn-secondary" type="button"
+           style="position:absolute; bottom:12px;right:12px">Back to Notes</a>
     </div>
 
 </section>
@@ -58,34 +59,45 @@
     <script>
         var putMethod = (event) => {
             event.preventDefault();
+            putData();
+        }
 
-            var button = document.querySelectorAll("[name=update_data]");
-            var url = button[0].getAttribute("resource")
-
-            var body = {};
-            body[document.getElementById("id").name] = document.getElementById("id").value;
-            body[document.getElementById("name").name] = document.getElementById("name").value;
-            body[document.getElementById("category").name] = document.getElementById("category").value;
-            body[document.getElementById("content").name] = document.getElementById("content").value;
-            var radioButtons = document.querySelectorAll("[type=radio]");
+        function putData() {
+            let url = "/notes/" + document.getElementById("id").value;
+            let urlRedirect = "/notes";
+            let data = {};
+            data[document.getElementById("id").name] = document.getElementById("id").value;
+            data[document.getElementById("name").name] = document.getElementById("name").value;
+            data[document.getElementById("category").name] = document.getElementById("category").value;
+            data[document.getElementById("content").name] = document.getElementById("content").value;
+            const radioButtons = document.querySelectorAll("[type=radio]");
             radioButtons.forEach(e => {
                 if (e.checked) {
-                    body[e.name] = e.value;
+                    data[e.name] = e.value;
                 }
-
             })
-            var xhr = new XMLHttpRequest();
-            xhr.open("PUT", url);
-            xhr.setRequestHeader("Content-Type", "application/json; charset=utf-8");
-            xhr.onload = () => {
-                if (xhr.status === 200) {
-                    var button = document.querySelectorAll("[name=update_data]");
-                    button[0].innerHTML = "Saved!"
+            const response = fetch(url, {
+                method: 'PUT',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'manual',
+                referrerPolicy: 'strict-origin',
+                body: JSON.stringify(data)
+            }).then((response) => {
+                if (!response.ok) {
+                    if(!alert("Wrong format! Update canceled!")){
+                        window.location.href = urlRedirect;
+                    }
                 } else {
-                    console.log(xhr.status, xhr.responseText);
+                    window.location.href = urlRedirect;
                 }
-            }
-            xhr.send(JSON.stringify(body));
+            }).catch(function (err) {
+                console.info(err + " url: " + url);
+            });
         }
 
         document.querySelectorAll("[name=update_data]").forEach(element => {

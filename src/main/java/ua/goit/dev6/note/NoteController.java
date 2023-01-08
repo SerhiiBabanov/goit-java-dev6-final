@@ -40,6 +40,9 @@ public class NoteController {
     @GetMapping("/{id}")
     private ModelAndView getEditForm(@PathVariable("id") UUID id) {
         NoteDTO note = noteService.findById(id);
+        if (Objects.isNull(note)){
+            return new ModelAndView("error/forbidden");
+        }
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = note.getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
@@ -68,7 +71,7 @@ public class NoteController {
     @PutMapping("/{id}")
     private String update(@Validated @RequestBody NoteDTO note, BindingResult result, @PathVariable("id") UUID id){
         if (result.hasErrors()) {
-            return "notes/createNoteForm";
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Note not updated!");
         }
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = noteService.findById(id).getUser().getId();
