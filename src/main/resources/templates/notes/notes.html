@@ -26,7 +26,7 @@
                 </button>
             </form>
             <br>
-            <input  type="text" id="filter" placeholder="filter">
+            <input type="text" id="filter" placeholder="filter">
             <table id="emp-table" class="table table-striped">
                 <thead>
                 <tr>
@@ -53,7 +53,7 @@
                     <td th:text="${note.accessType}"></td>
                     <td colspan="3" style="display:flex; justify-content:space-around; max-width:200px">
                         <button class="btn btn-light" title="Delete"
-                                th:attr="onclick=|makeDELETErequest('/notes/${note.id}')|">
+                                th:attr="onclick=|deleteData('/notes/${note.id}')|">
                             <img src="/icons/trash.png" alt="deleteButton"
                                  style="border:0; width:30px; height:30px"/>
                         </button>
@@ -81,19 +81,30 @@
         alert("You just copied " + window.location.href + id);
     }
 
-    function makeDELETErequest(urlParametr) {
-        if (confirm('Are you sure you want to delete this?')) {
-            $.ajax({
-                url: urlParametr,
-                type: 'DELETE',
-                success: function () {
-                    location.reload();
-                },
-                error: function (jqXHR, data, textStatus, errorThrown) {
-
+    function deleteData(urlParametr) {
+        if (confirm('Are you sure you want to delete this?')){
+            let url = urlParametr;
+            let urlRedirect = "/notes";
+            const response = fetch(url, {
+                method: 'DELETE',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                redirect: 'manual',
+                referrerPolicy: 'strict-origin'
+            }).then((response) => {
+                if (!response.ok) {
+                    if(!alert("Wrong format! Update canceled!")){
+                        window.location.href = urlRedirect;
+                    }
+                } else {
+                    window.location.href = urlRedirect;
                 }
+            }).catch(function (err) {
+                console.info(err + " url: " + url);
             });
         }
+
     }
 
     getUniqueValuesFromColumn()
