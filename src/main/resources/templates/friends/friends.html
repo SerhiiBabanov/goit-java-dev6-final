@@ -4,33 +4,37 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>List of users</title>
+    <title>List of friends</title>
 </head>
 <body>
 <div>
     <section layout:fragment="content">
-        <h1 class="text-center" style="color:white">List of users</h1>
-        <div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
+        <div class="container" th:if="${#lists.isEmpty(users)}"
+             style="background:white; opacity: 0.7; overflow-y: auto">
+            <h3> You didn't add any friend </h3>
+            <p><a class="btn btn-primary" href="/friends/add">Add friend</a></p>
+        </div>
+        <div class="container" th:if="${not #lists.isEmpty(users)}"
+             style="background:white; opacity: 0.7; overflow-y: auto">
+            <h3>List of friends</h3>
+            <p><a class="btn btn-primary" href="/friends/add">Add friend</a></p>
             <table class = "table table-striped">
                 <thead>
-                <tr th:if="${users!=null}">
+                <tr>
                     <th>Email</th>
                     <th>Actions</th>
                 </tr>
-                <div th:if="${users==null}">
-                    <p>There is no user</p>
-                </div>
                 </thead>
                 <tbody>
                 <tr th:each="user: ${users}">
                     <td th:text="${user.email}"></td>
                     <td>
-                        <a th:href="@{/friends/viewNoteFriend/{id}(id=${user.id})}" class="btn btn-danger">
-                            <img src="/icons/note.png"
+                        <a th:href="@{/friends/view/{id}(id=${user.id})}" class="btn btn-light" title="Notes">
+                            <img src="/icons/notes.png"
                             alt="viewButton"
                             style="border:0; width:30px; height:30px"/>
                         </a>
-                        <a th:href="@{/friends/delete/{id}(id=${user.id})}" class="btn btn-danger">
+                        <a th:href="@{/friends/delete/{id}(id=${user.id})}" class="btn btn-light" title="Delete">
                             <img src="/icons/trash.png"
                             alt="deleteButton"
                             style="border:0; width:30px; height:30px"/>

@@ -46,21 +46,12 @@ public class FriendController {
         userService.deleteFriend(userService.getAuthorizedUser().getId(),id);
         return "redirect:/friends";
     }
-    @GetMapping("/viewNoteFriend/{id}")
+    @GetMapping("/view/{id}")
     private ModelAndView viewNoteFriend(@PathVariable("id") UUID id) {
         ModelAndView result = new ModelAndView("friends/friendNotes");
         List<NoteDTO> notes = noteService.findPublicByUserId(id);
         result.addObject("notes", notes);
         return result;
-    }
-
-    @GetMapping("/friendNoteViewForm/{id}")
-    private ModelAndView friendNoteViewForm(@PathVariable("id") UUID id) {
-        NoteDTO note = noteService.findById(id);
-        if (note.getAccessType().equals(AccessType.PUBLIC)){
-            return new ModelAndView("friends/friendNoteViewForm").addObject("note", note);
-        }
-        return new ModelAndView("error/forbidden");
     }
 
 }

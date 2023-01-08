@@ -18,7 +18,7 @@
                     <th   style="width:7%; max-width:100px; text-align:center">Actions</th>
                 </tr>
                 <div th:if="${users==null}">
-                    <p>There is no user</p>
+                    <p>There are no users</p>
                 </div>
                 </thead>
                 <tbody>
@@ -26,7 +26,7 @@
                     <td th:text="${user.email}"></td>
                     <td>
                         <a></a>
-                        <a th:href="@{/friends/add/{id}(id=${user.id})}" class="btn btn-primary">
+                        <a th:href="@{/friends/add/{id}(id=${user.id})}" class="btn btn-light" title="Add friend">
                             <img src="/icons/add-user.png"
                             alt="addButton"
                             style="border:0; width:30px; height:30px"/>

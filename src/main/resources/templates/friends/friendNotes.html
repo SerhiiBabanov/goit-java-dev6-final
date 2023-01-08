@@ -12,12 +12,12 @@
     <section layout:fragment="content">
         <div class="container" th:if="${#lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3> Friend have not notes </h3>
+            <h3> Friend has no notes </h3>
         </div>
         <div class="container" th:if="${not #lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
             <h3>
-                Friend notes - <span th:text="${notes.size()}"></span> pcs.
+                Friend's notes - <span th:text="${notes.size()}"></span> pcs.
             </h3>
             <br>
             <input  type="text" id="filter" placeholder="filter">
@@ -42,8 +42,8 @@
                         style="max-width:300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></td>
                     <td colspan="3" style="display:flex; justify-content:space-around; max-width:400px">
                         <a class="btn btn-light" title="View"
-                           th:href="@{/friends/friendNoteViewForm/{id}(id=${note.id})}">
-                            <img src="/icons/note.png"
+                           th:href="@{/notes/share/{id}(id=${note.id})}">
+                            <img src="/icons/view.png"
                                  alt="editButton"
                                  style="border:0; width:30px; height:30px"/>
                         </a>

@@ -13,7 +13,7 @@
         <div class="container" th:if="${#lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
             <h3> You didn't create any note </h3>
-            <p><a class="btn btn-secondary" href="/notes/create">Create note</a></p>
+            <p><a class="btn btn-primary" href="/notes/create">Create note</a></p>
         </div>
         <div class="container" th:if="${not #lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
