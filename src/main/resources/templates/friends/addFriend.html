@@ -15,7 +15,7 @@
                 <thead>
                 <tr th:if="${users!=null}">
                     <th>Email</th>
-                    <th>Actions</th>
+                    <th   style="width:7%; max-width:100px; text-align:center">Actions</th>
                 </tr>
                 <div th:if="${users==null}">
                     <p>There is no user</p>
@@ -25,9 +25,10 @@
                 <tr th:each="user: ${users}">
                     <td th:text="${user.email}"></td>
                     <td>
+                        <a></a>
                         <a th:href="@{/friends/add/{id}(id=${user.id})}" class="btn btn-primary">
                             <img src="/icons/add-user.png"
-                            alt="editButton"
+                            alt="addButton"
                             style="border:0; width:30px; height:30px"/>
                         </a>
                     </td>
