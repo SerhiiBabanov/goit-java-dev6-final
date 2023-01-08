@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+      layout:decorate="~{layout}"
+      lang="en">
 <head>
     <title>List of users</title>
 </head>
@@ -25,7 +25,11 @@
                 <tr th:each="user: ${users}">
                     <td th:text="${user.email}"></td>
                     <td>
-                        <a th:href="@{/friends/add/{id}(id=${user.id})}" class="btn btn-primary">Add to friend</a>
+                        <a th:href="@{/friends/add/{id}(id=${user.id})}" class="btn btn-primary">
+                            <img src="/icons/add-user.png"
+                            alt="editButton"
+                            style="border:0; width:30px; height:30px"/>
+                        </a>
                     </td>
                 </tr>
                 </tbody>
@@ -33,32 +37,5 @@
         </div>
     </section>
 </div>
-
-<th:block layout:fragment="script">
-    <script>
-        function copy(id) {
-            var copiedtext = document.getElementById(id);
-            copiedtext.select();
-            copiedtext.setSelectionRange(0, 99999); //for mobile devices
-            navigator.clipboard.writeText(copiedtext.value);
-            alert("You just copied " + copiedtext.value);
-        }
-
-        function makeDELETErequest(urlParametr) {
-            if (confirm('Are you sure you want to delete this?')) {
-                $.ajax({
-                    url: urlParametr,
-                    type: 'DELETE',
-                    success: function () {
-                        location.reload();
-                    },
-                    error: function (jqXHR, data, textStatus, errorThrown) {
-
-                    }
-                });
-            }
-        }</script>
-</th:block>
-
 </body>
 </html>

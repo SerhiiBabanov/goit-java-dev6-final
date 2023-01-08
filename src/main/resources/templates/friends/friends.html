@@ -25,7 +25,16 @@
                 <tr th:each="user: ${users}">
                     <td th:text="${user.email}"></td>
                     <td>
-                        <a th:href="@{/friends/delete/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+                        <a th:href="@{/friends/viewNoteFriend/{id}(id=${user.id})}" class="btn btn-danger">
+                            <img src="/icons/note.png"
+                            alt="viewButton"
+                            style="border:0; width:30px; height:30px"/>
+                        </a>
+                        <a th:href="@{/friends/delete/{id}(id=${user.id})}" class="btn btn-danger">
+                            <img src="/icons/trash.png"
+                            alt="deleteButton"
+                            style="border:0; width:30px; height:30px"/>
+                        </a>
                     </td>
                 </tr>
                 </tbody>
