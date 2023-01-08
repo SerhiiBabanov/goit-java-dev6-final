@@ -65,7 +65,7 @@ article{
 }
 
 .has-error {
-    color: red
+    color: red;
 }
 
 .form-massage {
@@ -74,6 +74,10 @@ article{
 
 .text-href {
     color: white;
+}
+
+.text-href:hover {
+    color:#3399ff;
 }
 
 .myFooter{
