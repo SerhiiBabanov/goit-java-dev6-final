@@ -40,6 +40,9 @@ public class NoteController {
     @GetMapping("/{id}")
     private ModelAndView getEditForm(@PathVariable("id") UUID id) {
         NoteDTO note = noteService.findById(id);
+        if (Objects.isNull(note)){
+            return new ModelAndView("error/forbidden");
+        }
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = note.getUser().getId();
         if (!authorizedUserId.equals(ownerId)){
