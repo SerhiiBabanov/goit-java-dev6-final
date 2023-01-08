@@ -1,6 +1,7 @@
 package ua.goit.dev6.friend;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
+@Secured(value = {"ROLE_ADMIN"})
 @Controller
 @RequestMapping("/friends")
 public class FriendController {
