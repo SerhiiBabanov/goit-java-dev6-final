@@ -7,7 +7,7 @@ import ua.goit.dev6.roles.RoleDAO;
 import java.util.*;
 
 @Data
-public class UserDTO extends UserDAO {
+public class UserDTO {
 
     private UUID id;
     private String email;
@@ -15,5 +15,4 @@ public class UserDTO extends UserDAO {
     private String passwordConfirm;
     private Set<NoteDAO> notes = new LinkedHashSet<>();
     private List<RoleDAO> roles = new ArrayList<>();
-    private Set<UserDAO> friend = new HashSet<>();
 }

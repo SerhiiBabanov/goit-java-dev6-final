@@ -39,12 +39,12 @@ public class UserDAO {
     @JoinTable(name = "friend",
     joinColumns = @JoinColumn(name = "friend_id"),
     inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<UserDAO> user = new HashSet<>();
+    private Set<UserDAO> users = new HashSet<>();
 
     @ManyToMany
     @JoinTable(name = "friend",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private Set<UserDAO> friend  = new HashSet<>();
+    private Set<UserDAO> friends  = new HashSet<>();
 
 }

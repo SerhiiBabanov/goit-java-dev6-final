@@ -77,21 +77,25 @@ public class UserService {
     }
 
     public List<UserDTO> allFriend(UserDTO user){
-        UserDAO userDAO = mapper.userToDAO(user);
-        return userDAO.getFriend().stream().map(mapper::userToDTO).collect(Collectors.toList());
+        UserDAO userDAO = userRepository.getReferenceById(user.getId());
+        return userDAO.getFriends().stream().map(mapper::userToDTO).collect(Collectors.toList());
     }
 
     public void addFriend(UUID userId,UUID friendToAddId){
         Optional<UserDAO> authUser = userRepository.findById(userId);
         Optional<UserDAO> newFriend = userRepository.findById(friendToAddId);
-        authUser.get().getFriend().add(newFriend.get());
-        userRepository.save(authUser.get());
+        if (authUser.isPresent() && newFriend.isPresent()){
+            authUser.get().getFriends().add(newFriend.get());
+            userRepository.save(authUser.get());
+        }
     }
 
     public void deleteFriend(UUID userId,UUID friendToRemoveId){
         Optional<UserDAO> authUser = userRepository.findById(userId);
-        Optional<UserDAO> removeFromFriend = userRepository.findById(friendToRemoveId);
-        authUser.get().getFriend().remove(removeFromFriend.get());
-        userRepository.save(authUser.get());
+        Optional<UserDAO> userToRemoveFromFriend = userRepository.findById(friendToRemoveId);
+        if (authUser.isPresent() && userToRemoveFromFriend.isPresent()){
+            authUser.get().getFriends().remove(userToRemoveFromFriend.get());
+            userRepository.save(authUser.get());
+        }
     }
 }

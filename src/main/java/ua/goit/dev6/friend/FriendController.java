@@ -24,8 +24,8 @@ public class FriendController {
     @GetMapping
     private ModelAndView findAllFriend(){
         ModelAndView result = new ModelAndView("friends/friends");
-        UserDTO authorizedUserId = userService.getAuthorizedUser();
-        result.addObject("users",userService.allFriend(authorizedUserId));
+        UserDTO authorizedUser = userService.getAuthorizedUser();
+        result.addObject("users",userService.allFriend(authorizedUser));
         return result;
     }
 

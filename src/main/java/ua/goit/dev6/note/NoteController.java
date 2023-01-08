@@ -98,7 +98,6 @@ public class NoteController {
         return new ModelAndView("error/forbidden");
     }
 
-
     @ModelAttribute("note")
     private NoteDTO getDefaultProduct() {
         return new NoteDTO();
