@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ua.goit.dev6.account.UserDTO;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -22,4 +23,5 @@ public class NoteDTO {
     @NotNull(message = "{validation.name.asses}")
     private AccessType accessType;
     private UserDTO user;
+    private Set<UserDTO> users;
 }

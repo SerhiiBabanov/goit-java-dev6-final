@@ -18,6 +18,10 @@
         <h4>
             <span th:text="${note.content}"></span>
         </h4>
+        <br>
+        <a th:href="@{/friendsnotes/add/{id}(id=${note.id})}" class="btn btn-secondary" alt="">
+            Add to my list
+        </a><br><br>
     </div>
 </section>
 </body>

@@ -7,6 +7,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.goit.dev6.EntityMapper;
 import ua.goit.dev6.exception.NotFoundException;
+import ua.goit.dev6.note.NoteDAO;
+import ua.goit.dev6.note.NoteDTO;
+import ua.goit.dev6.note.NoteRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final NoteRepository noteRepository;
     private final EntityMapper mapper;
     private final PasswordEncoder passwordEncoder;
 
@@ -77,7 +81,7 @@ public class UserService {
     }
 
     public List<UserDTO> allFriend(UserDTO user){
-        UserDAO userDAO = userRepository.getReferenceById(user.getId());
+        UserDAO userDAO = mapper.userToDAO(user);
         return userDAO.getFriends().stream().map(mapper::userToDTO).collect(Collectors.toList());
     }
 
@@ -96,6 +100,29 @@ public class UserService {
         if (authUser.isPresent() && userToRemoveFromFriend.isPresent()){
             authUser.get().getFriends().remove(userToRemoveFromFriend.get());
             userRepository.save(authUser.get());
+        }
+    }
+
+    public List<NoteDTO> allFriendsNotes(UserDTO user){
+        UserDAO userDAO = mapper.userToDAO(user);
+        return userDAO.getFriendsNotes().stream().map(mapper::noteToDTO).collect(Collectors.toList());
+    }
+
+    public void addFriendNote(UserDTO user, UUID noteToAddId){
+        UserDAO userDAO = mapper.userToDAO(user);
+        Optional<NoteDAO> noteToAdd = noteRepository.findById(noteToAddId);
+        if (noteToAdd.isPresent()){
+            userDAO.getFriendsNotes().add(noteToAdd.get());
+            userRepository.save(userDAO);
+        }
+    }
+
+    public void deleteFriendNote(UserDTO user, UUID noteToDeleteId){
+        UserDAO userDAO = mapper.userToDAO(user);
+        Optional<NoteDAO> noteToDelete = noteRepository.findById(noteToDeleteId);
+        if (noteToDelete.isPresent()){
+            userDAO.getFriendsNotes().remove(noteToDelete.get());
+            userRepository.save(userDAO);
         }
     }
 }

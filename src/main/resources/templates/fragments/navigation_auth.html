@@ -23,6 +23,9 @@
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/friends}">friends</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/friendsnotes}">friends notes</a>
+                </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link active" th:href="@{/users/list}">users</a>
                 </li>
@@ -37,7 +40,6 @@
                         Settings
                     </a>
                     <ul class="dropdown-menu">
-<!--                        <li><a class="dropdown-item" href="#">account info</a></li>-->
                         <li><a class="dropdown-item" href="/settings/change">change password</a></li>
                         <li><a class="dropdown-item" href="/logout">sign out</a></li>
                     </ul>
