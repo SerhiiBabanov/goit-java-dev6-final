@@ -1,14 +1,20 @@
 package ua.goit.dev6.note;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import ua.goit.dev6.account.UserDAO;
 
+import java.util.Set;
 import java.util.UUID;
 
-@Data
+//@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "notes")
 public class NoteDAO {
@@ -34,5 +40,10 @@ public class NoteDAO {
     @JoinColumn(name = "user_id", nullable = false)
     private UserDAO user;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "friends_notes",
+            joinColumns = @JoinColumn(name = "friend_note_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<UserDAO> users;
 
 }

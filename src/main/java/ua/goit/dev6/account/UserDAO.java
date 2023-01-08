@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import ua.goit.dev6.note.NoteDAO;
 import ua.goit.dev6.roles.RoleDAO;
 
@@ -47,4 +49,10 @@ public class UserDAO {
             inverseJoinColumns = @JoinColumn(name = "friend_id"))
     private Set<UserDAO> friends  = new HashSet<>();
 
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinTable(name = "friends_notes",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_note_id"))
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<NoteDAO> friendsNotes = new HashSet<>();
 }
