@@ -1,7 +1,8 @@
 package ua.goit.dev6.account;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import ua.goit.dev6.note.NoteDAO;
 import ua.goit.dev6.roles.RoleDAO;
@@ -33,5 +34,17 @@ public class UserDAO {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<RoleDAO> roles = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(name = "friend",
+    joinColumns = @JoinColumn(name = "friend_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<UserDAO> users = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "friend",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "friend_id"))
+    private Set<UserDAO> friends  = new HashSet<>();
 
 }

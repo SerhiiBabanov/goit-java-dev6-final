@@ -46,5 +46,13 @@ public class NoteService {
                 .map(mapper::noteToDTO)
                 .collect(Collectors.toList());
     }
+
+    public List<NoteDTO> findPublicByUserId(UUID id){
+        return repository.findByUser_Id(id).stream()
+                .filter(noteDTO -> noteDTO.getAccessType().equals(AccessType.PUBLIC))
+                .map(mapper::noteToDTO)
+                .collect(Collectors.toList());
+    }
+
 }
 

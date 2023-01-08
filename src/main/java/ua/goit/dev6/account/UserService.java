@@ -75,4 +75,27 @@ public class UserService {
         return userRepository.findByEmail(userDetails.getUsername()).map(mapper::userToDTO)
                 .orElseThrow(() -> new NotFoundException("Error with getting autorized user"));
     }
+
+    public List<UserDTO> allFriend(UserDTO user){
+        UserDAO userDAO = userRepository.getReferenceById(user.getId());
+        return userDAO.getFriends().stream().map(mapper::userToDTO).collect(Collectors.toList());
+    }
+
+    public void addFriend(UUID userId,UUID friendToAddId){
+        Optional<UserDAO> authUser = userRepository.findById(userId);
+        Optional<UserDAO> newFriend = userRepository.findById(friendToAddId);
+        if (authUser.isPresent() && newFriend.isPresent()){
+            authUser.get().getFriends().add(newFriend.get());
+            userRepository.save(authUser.get());
+        }
+    }
+
+    public void deleteFriend(UUID userId,UUID friendToRemoveId){
+        Optional<UserDAO> authUser = userRepository.findById(userId);
+        Optional<UserDAO> userToRemoveFromFriend = userRepository.findById(friendToRemoveId);
+        if (authUser.isPresent() && userToRemoveFromFriend.isPresent()){
+            authUser.get().getFriends().remove(userToRemoveFromFriend.get());
+            userRepository.save(authUser.get());
+        }
+    }
 }

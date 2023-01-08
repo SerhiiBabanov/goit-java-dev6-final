@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title>List of friends</title>
+</head>
+<body>
+<div>
+    <section layout:fragment="content">
+        <div class="container" th:if="${#lists.isEmpty(users)}"
+             style="background:white; opacity: 0.7; overflow-y: auto">
+            <h3> You didn't add any friend </h3>
+            <p><a class="btn btn-primary" href="/friends/add">Add friend</a></p>
+        </div>
+        <div class="container" th:if="${not #lists.isEmpty(users)}"
+             style="background:white; opacity: 0.7; overflow-y: auto">
+            <h3>List of friends</h3>
+            <p><a class="btn btn-primary" href="/friends/add">Add friend</a></p>
+            <table class = "table table-striped">
+                <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user: ${users}">
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <a th:href="@{/friends/view/{id}(id=${user.id})}" class="btn btn-light" title="Notes">
+                            <img src="/icons/notes.png"
+                            alt="viewButton"
+                            style="border:0; width:30px; height:30px"/>
+                        </a>
+                        <a th:href="@{/friends/delete/{id}(id=${user.id})}" class="btn btn-light" title="Delete">
+                            <img src="/icons/trash.png"
+                            alt="deleteButton"
+                            style="border:0; width:30px; height:30px"/>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+
+<th:block layout:fragment="script">
+    <script>
+        function copy(id) {
+            var copiedtext = document.getElementById(id);
+            copiedtext.select();
+            copiedtext.setSelectionRange(0, 99999); //for mobile devices
+            navigator.clipboard.writeText(copiedtext.value);
+            alert("You just copied " + copiedtext.value);
+        }
+
+        function makeDELETErequest(urlParametr) {
+            if (confirm('Are you sure you want to delete this?')) {
+                $.ajax({
+                    url: urlParametr,
+                    type: 'DELETE',
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function (jqXHR, data, textStatus, errorThrown) {
+
+                    }
+                });
+            }
+        }</script>
+</th:block>
+
+</body>
+</html>

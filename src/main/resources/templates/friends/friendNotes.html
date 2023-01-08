@@ -4,7 +4,7 @@
       layout:decorate="~{layout}"
       lang="en">
 <head>
-    <title>My Notes</title>
+    <title>Friend notes</title>
     <script src="/js/filter.js"></script>
 </head>
 <body>
@@ -12,19 +12,13 @@
     <section layout:fragment="content">
         <div class="container" th:if="${#lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3> You didn't create any note </h3>
-            <p><a class="btn btn-primary" href="/notes/create">Create note</a></p>
+            <h3> Friend has no notes </h3>
         </div>
         <div class="container" th:if="${not #lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
             <h3>
-                My notes - <span th:text="${notes.size()}"></span> pcs.
+                Friend's notes - <span th:text="${notes.size()}"></span> pcs.
             </h3>
-            <form action="/notes/create" method="GET">
-                <button type="submit" class="btn btn-primary">
-                    Create note
-                </button>
-            </form>
             <br>
             <input  type="text" id="filter" placeholder="filter">
             <table id="emp-table" class="table table-striped">
@@ -36,10 +30,6 @@
                             <option value="all"></option>
                         </select></th>
                     <th col-index=3>Content</th>
-                    <th col-index=4>Access
-                        <select class="table-filter" onchange="filter_rows()">
-                            <option value="all"></option>
-                        </select></th>
                     <th col-index=5 colspan="3" style="width:15%; max-width:200px; text-align:center">Notes managing
                     </th>
                 </tr>
@@ -49,24 +39,14 @@
                     <td th:text="${note.name}"></td>
                     <td th:text="${note.category}"></td>
                     <td th:text="${note.content}"
-                        style="max-width:150px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></td>
-                    <td th:text="${note.accessType}"></td>
-                    <td colspan="3" style="display:flex; justify-content:space-around; max-width:200px">
-                        <button class="btn btn-light" title="Delete"
-                                th:attr="onclick=|makeDELETErequest('/notes/${note.id}')|">
-                            <img src="/icons/trash.png" alt="deleteButton"
-                                 style="border:0; width:30px; height:30px"/>
-                        </button>
-                        <a class="btn btn-light" title="Edit"
-                           th:href="@{/notes/{id}(id=${note.id})}">
-                            <img src="/icons/edit.png"
+                        style="max-width:300px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis"></td>
+                    <td colspan="3" style="display:flex; justify-content:space-around; max-width:400px">
+                        <a class="btn btn-light" title="View"
+                           th:href="@{/notes/share/{id}(id=${note.id})}">
+                            <img src="/icons/view.png"
                                  alt="editButton"
-                                 style="border:0; width:30px; height:30px"/></a>
-                        <button class="btn btn-light" title="Copy link"
-                                type="submit" th:attr="onclick=|copy('/share/${note.id}')|">
-                            <img src="/icons/link-alt.png" alt="copyLinkButton"
                                  style="border:0; width:30px; height:30px"/>
-                        </button>
+                        </a>
                     </td>
                 </tr>
                 </tbody>
