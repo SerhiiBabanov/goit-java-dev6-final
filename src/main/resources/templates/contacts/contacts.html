@@ -9,15 +9,12 @@
 <body>
 <div>
     <main layout:fragment="main">
-        <div class="container" th:if="${#lists.isEmpty(users)}"
-             style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3> You didn't add any friend </h3>
-            <p><a class="btn btn-primary" href="/friends/add">Add friend</a></p>
+        <div th:if="${#lists.isEmpty(users)}">
+            <h3> List empty </h3>
+            <p><a class="btn btn-primary" href="/contacts/add">Add friend</a></p>
         </div>
-        <div class="container" th:if="${not #lists.isEmpty(users)}"
-             style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3>List of friends</h3>
-            <p><a class="btn btn-primary" href="/friends/add">Add friend</a></p>
+        <div th:if="${not #lists.isEmpty(users)}">
+            <p><a class="btn btn-primary" href="/contacts/add">Add friend</a></p>
             <table class = "table table-striped">
                 <thead>
                 <tr>
@@ -29,12 +26,12 @@
                 <tr th:each="user: ${users}">
                     <td th:text="${user.email}"></td>
                     <td>
-                        <a th:href="@{/friends/view/{id}(id=${user.id})}" class="btn btn-light" title="Notes">
+                        <a th:href="@{/contacts/view/{id}(id=${user.id})}" class="btn btn-light" title="Notes">
                             <img src="/icons/notes.png"
                             alt="viewButton"
                             style="border:0; width:30px; height:30px"/>
                         </a>
-                        <a th:href="@{/friends/delete/{id}(id=${user.id})}" class="btn btn-light" title="Delete">
+                        <a th:href="@{/contacts/delete/{id}(id=${user.id})}" class="btn btn-light" title="Delete">
                             <img src="/icons/trash.png"
                             alt="deleteButton"
                             style="border:0; width:30px; height:30px"/>

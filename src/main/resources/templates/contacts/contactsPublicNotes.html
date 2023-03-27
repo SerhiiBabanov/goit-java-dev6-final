@@ -10,16 +10,11 @@
 <body>
 <div>
     <main layout:fragment="main">
-        <div class="container" th:if="${#lists.isEmpty(notes)}"
-             style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3> Friend has no notes </h3>
+        <div th:if="${#lists.isEmpty(notes)}">
+            <h3> Contact doesn't have public notes </h3>
         </div>
-        <div class="container" th:if="${not #lists.isEmpty(notes)}"
-             style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3>
-                Friend's notes - <span th:text="${notes.size()}"></span> pcs.
-            </h3>
-            <br>
+        <div th:if="${not #lists.isEmpty(notes)}">
+
             <input  type="text" id="filter" placeholder="filter">
             <table id="emp-table" class="table table-striped">
                 <thead>
