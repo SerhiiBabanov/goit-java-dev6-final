@@ -8,34 +8,27 @@
 </head>
 <body>
 <main layout:fragment="main">
-<div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
-    <h1>Edit user</h1>
     <form th:action="@{/users/updateUserOpenData}" th:object="${userForm}" method="POST">
         <input hidden="hidden" th:field="*{id}"/>
-        <div class="form-group">
-            <label> New user email: </label>
-            <input type="text"  th:field="*{email}"  name="email" class="form-control">
+        <div class="mb-3">
+            <label for="email" class="form-label"> New user email: </label>
+            <input type="email"  th:field="*{email}"  name="email" class="form-control" id="email">
             <span class="has-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
         </div>
-        <input hidden="hidden" th:field="*{password}"/>
-        <input hidden="hidden" th:field="*{passwordConfirm}"/>
-        <div class="form-group">
-        <label> Roles:
-            <input type="checkbox" name="roles"
-                   th:each="role : ${roles}"
-                   th:text="${role.name}"
-                   th:value="${role.id}"
-                   th:field="*{roles}"/>
-        </label>
+        <div class="mb-3">
+            <div class="mb-1" th:each="role : ${roles}">
+                <input type="checkbox" class="form-check-input" th:field="*{roles}" th:value="${role.id}"/>
+                <label class="form-check-label" th:for="${#ids.prev('roles')}"
+                       th:text="${role.name}"></label>
+            </div>
         </div>
         <div>
-            <button type="submit" class="btn btn-primary">Save changes</button>
+            <a class="btn btn-secondary mr-3" th:href="@{/users/list}">Cancel</a>
+            <button class="btn btn-primary" type="submit">Save changes</button>
         </div>
     </form>
-    <form th:action="@{/users/list}" method="GET">
-        <button class="btn btn-secondary" type="submit">Back to Users</button>
-    </form>
-</div>
+
+
 </main>
 </body>
 </html>

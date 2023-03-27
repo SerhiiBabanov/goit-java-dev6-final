@@ -41,13 +41,12 @@
             </div>
             <div class="mb-3">
                 <input name="id" type="hidden" th:field="*{id}">
-                <button class="btn btn-primary update_data" type="submit" >
+                <a class="btn btn-secondary mr-3" th:href="@{/notes}">Cancel</a>
+                <button class="btn btn-primary" type="submit" >
                     Save changes
                 </button>
             </div>
         </form>
-        <a th:href="@{/notes}" class="btn btn-secondary" type="button"
-           style="position:absolute; bottom:12px;right:12px">Back to Notes</a>
 </main>
 <th:block layout:fragment="script">
     <script>

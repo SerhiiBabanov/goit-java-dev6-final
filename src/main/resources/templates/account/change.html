@@ -4,33 +4,49 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout}">
 <head>
-    <title>Login</title>
+    <title>Change password</title>
 </head>
 <body>
 <main layout:fragment="main">
-    <div class="container">
-        <form class="form-signin" method="POST" th:object="${changePasswordForm}" th:action="@{/settings/change}">
-            <h2 class="form-heading">Change password</h2>
+        <form method="POST" th:object="${changePasswordForm}" th:action="@{/settings/change}">
 
-            <div class="form-group">
-                <span class="has-message" th:text="${message}"></span>
-                <input name="oldPassword" type="password" class="form-control" placeholder="oldPassword"
-                       autofocus="true"/>
+            <div class="mb-3">
+                <label for="oldPassword" class="form-label"> Current password: </label>
+                <input type="password" name="oldPassword" class="form-control" id="oldPassword">
                 <span class="has-error" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></span>
-
-                <input name="password" type="password" class="form-control" placeholder="newPassword"/>
-                <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
-
-                <input name="passwordConfirm" type="password" class="form-control" placeholder="repeatPassword"/>
-                <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>
-
-                <button class="btn btn-block btn-lg btn-primary form-control" type="submit" >  Change  </button>
-
             </div>
+            <div class="mb-3">
+                <label for="password" class="form-label"> New password: </label>
+                <input type="password" name="password" class="form-control" id="password">
+                <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+            </div>
+            <div class="mb-3">
+                <label for="passwordConfirm" class="form-label"> Confirm new password: </label>
+                <input type="password" name="passwordConfirm" class="form-control" id="passwordConfirm">
+                <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}"
+                      th:errors="*{passwordConfirm}"></span>
+            </div>
+            <div>
+                <a class="btn btn-secondary mr-3" th:href="@{/home}">Cancel</a>
+                <button class="btn btn-primary" type="submit">Save changes</button>
+            </div>
+
+<!--            <div class="form-group">-->
+<!--                <span class="has-message" th:text="${message}"></span>-->
+<!--                <input name="oldPassword" type="password" class="form-control" placeholder="oldPassword"-->
+<!--                       autofocus="true"/>-->
+<!--                <span class="has-error" th:if="${#fields.hasErrors('oldPassword')}" th:errors="*{oldPassword}"></span>-->
+
+<!--                <input name="password" type="password" class="form-control" placeholder="newPassword"/>-->
+<!--                <span class="has-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>-->
+
+<!--                <input name="passwordConfirm" type="password" class="form-control" placeholder="repeatPassword"/>-->
+<!--                <span class="has-error" th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}"></span>-->
+
+<!--                <button class="btn btn-block btn-lg btn-primary form-control" type="submit" >  Change  </button>-->
+
+<!--            </div>-->
         </form>
-
-    </div>
-
 </main>
 
 </body>

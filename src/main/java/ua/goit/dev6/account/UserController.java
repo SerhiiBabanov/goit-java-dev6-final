@@ -64,7 +64,6 @@ public class UserController {
     @PostMapping("/updateUserOpenData")
     public String updateUserWithoutPassword(@ModelAttribute(name = "userForm") UserDTO userDTO,
                                             BindingResult bindingResult, Model model) {
-        log.info("Handling save users: " + userDTO);
         userValidator.validateEmail(userDTO, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("roles", roleService.listAll());

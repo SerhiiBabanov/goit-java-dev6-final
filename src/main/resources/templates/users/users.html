@@ -8,48 +8,42 @@
 </head>
 <body>
 <div>
-<main layout:fragment="main">
-    <div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
-        <table id="emp-table" class="table table-striped">
+    <main layout:fragment="main">
+        <p><a th:href="@{/users/create}" class="btn btn-primary mt-3"> Add User </a></p>
+        <table class="table table-striped">
             <thead>
-            <tr th:if="${users!=null}">
+            <tr>
                 <th col-index=1>Email</th>
                 <th col-index=2>User roles</th>
-                <th col-index=3 colspan="3" style="width:15%; max-width:200px; text-align:center">Users managing
+                <th col-index=3 colspan="3">Users managing
                 </th>
             </tr>
-        <div th:if="${users==null}">
-            <p>There is no user</p>
-        </div>
-        </thead>
-        <tbody>
-        <h3>List of users</h3>
-        <a th:href = "@{/users/create}" class="btn btn-primary" method="GET"> Add User </a>
-        <tr th:each="user: ${users}">
-            <td th:text="${user.email}"></td>
-            <td th:text="${user.roles}"></td>
-            <td colspan="3" style="display:flex; justify-content:space-around; max-width:200px">
-                <a class="btn btn-light" title="Delete"
-                   th:href="@{/users/delete/{id}(id=${user.id})}">
-                    <img src="/icons/trash.png"
-                         alt="deleteButton"
-                         style="border:0; width:30px; height:30px"/></a>
-                <a class="btn btn-light" title="Edit"
-                   th:href="@{/users/update/{id}(id=${user.id})}">
-                    <img src="/icons/edit.png"
-                         alt="editButton"
-                         style="border:0; width:30px; height:30px"/></a>
-                <a class="btn btn-light" title="Change password"
-                   th:href="@{/users/changePassword/{id}(id=${user.id})}">
-                    <img src="/icons/password-code.png"
-                         alt="changePasswordButton"
-                         style="border:0; width:30px; height:30px"/></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    </div>
-</main>
+            </thead>
+            <tbody>
+            <tr th:each="user: ${users}">
+                <td th:text="${user.email}"></td>
+                <td th:text="${user.roles}"></td>
+                <td colspan="3" style="display:flex; justify-content:space-around; max-width:200px">
+                    <a class="btn btn-light" title="Delete"
+                       th:href="@{/users/delete/{id}(id=${user.id})}">
+                        <img src="/icons/trash.png"
+                             alt="deleteButton"
+                             style="border:0; width:30px; height:30px"/></a>
+                    <a class="btn btn-light" title="Edit"
+                       th:href="@{/users/update/{id}(id=${user.id})}">
+                        <img src="/icons/edit.png"
+                             alt="editButton"
+                             style="border:0; width:30px; height:30px"/></a>
+                    <a class="btn btn-light" title="Change password"
+                       th:href="@{/users/changePassword/{id}(id=${user.id})}">
+                        <img src="/icons/password-code.png"
+                             alt="changePasswordButton"
+                             style="border:0; width:30px; height:30px"/></a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </main>
 </div>
 </body>
 </html>
