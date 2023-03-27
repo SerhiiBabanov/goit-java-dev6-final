@@ -10,7 +10,7 @@
 <body>
 
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary" th:fragment="header">
+<nav class="navbar navbar-expand-sm bg-body-tertiary" th:fragment="header">
     <div class="container-fluid">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -20,7 +20,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" th:href="@{/notes}">Notes</a>
+                    <a class="nav-link" th:href="@{/notes}">Notes</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/friends}">Contacts</a>
@@ -29,7 +29,7 @@
                     <a class="nav-link" th:href="@{/friendsnotes}">Contacts notes</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="nav-link active" th:href="@{/users/list}">Users</a>
+                    <a class="nav-link" th:href="@{/users/list}">Users</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/about}">About</a>
