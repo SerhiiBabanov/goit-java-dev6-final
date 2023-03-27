@@ -8,7 +8,7 @@
 </head>
 <body>
 <div>
-    <section layout:fragment="content">
+    <main layout:fragment="main">
         <div class="container" th:if="${#lists.isEmpty(users)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
             <h3> You didn't add any friend </h3>
@@ -44,7 +44,7 @@
                 </tbody>
             </table>
         </div>
-    </section>
+    </main>
 </div>
 
 <th:block layout:fragment="script">

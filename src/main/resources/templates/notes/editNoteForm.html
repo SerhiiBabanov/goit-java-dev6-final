@@ -7,7 +7,7 @@
     <title>Edit Note</title>
 </head>
 <body>
-<section layout:fragment="content">
+<main layout:fragment="main">
     <div class="container" style="background:white; opacity: 0.7; overflow-y: auto; position:relative">
         <h1>Edit note</h1>
         <form th:action="@{/notes}" th:object="${note}" method="POST">
@@ -54,7 +54,7 @@
            style="position:absolute; bottom:12px;right:12px">Back to Notes</a>
     </div>
 
-</section>
+</main>
 <th:block layout:fragment="script">
     <script>
         var putMethod = (event) => {

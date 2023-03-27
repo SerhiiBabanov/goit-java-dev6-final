@@ -9,7 +9,7 @@
 </head>
 <body>
 <div>
-    <section layout:fragment="content">
+    <main layout:fragment="main">
         <div class="container" th:if="${#lists.isEmpty(notes)}"
              style="background:white; opacity: 0.7; overflow-y: auto">
             <h3> You didn't create any note </h3>
@@ -72,7 +72,7 @@
                 </tbody>
             </table>
         </div>
-    </section>
+    </main>
 </div>
 
 <script layout:fragment="script">
