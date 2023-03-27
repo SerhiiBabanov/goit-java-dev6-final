@@ -19,22 +19,14 @@ function getUniqueValuesFromColumn() {
                 } else {
                     unique_col_values_dict[col_index].push(cell_value)
                     // alert("Array after adding the cell value : " + unique_col_values_dict[col_index])
-
                 }
-
-
             } else {
                 unique_col_values_dict[col_index] = new Array(cell_value)
             }
         });
-
-
     });
-
-
     updateSelectOptions(unique_col_values_dict)
-
-};
+}
 
 // Add <option> tags to the desired columns based on the unique values
 
@@ -47,10 +39,8 @@ function updateSelectOptions(unique_col_values_dict) {
         unique_col_values_dict[col_index].forEach((i) => {
             filter_i.innerHTML = filter_i.innerHTML + `\n<option value="${i}">${i}</option>`
         });
-
     });
-};
-
+}
 
 // Create filter_rows() function
 
@@ -88,22 +78,12 @@ function filter_rows() {
                 display_row = false;
                 break;
             }
-
-
         }
-
         if (display_row == true) {
             row.style.display = "table-row"
 
         } else {
             row.style.display = "none"
-
         }
-
-
-
-
-
     })
-
 }

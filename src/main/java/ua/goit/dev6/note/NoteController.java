@@ -21,10 +21,8 @@ public class NoteController {
     private final NoteService noteService;
     private final UserService userService;
 
-
-
     @GetMapping
-    private ModelAndView findAll(){
+    private ModelAndView findAll() {
         ModelAndView result = new ModelAndView("notes/notes");
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         List<NoteDTO> notes = noteService.findByUserId(authorizedUserId);
@@ -33,54 +31,60 @@ public class NoteController {
     }
 
     @GetMapping("/create")
-    private String getCreateForm() {
-        return "notes/createNoteForm";
+    private ModelAndView getCreateForm() {
+        ModelAndView result = new ModelAndView("notes/createNoteForm");
+        List<Category> categories = List.of(Category.values());
+        result.addObject("categories", categories);
+        return result;
     }
 
     @GetMapping("/{id}")
     private ModelAndView getEditForm(@PathVariable("id") UUID id) {
         NoteDTO note = noteService.findById(id);
-        if (Objects.isNull(note)){
+        if (Objects.isNull(note)) {
             return new ModelAndView("error/forbidden");
         }
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = note.getUser().getId();
-        if (!authorizedUserId.equals(ownerId)){
+        if (!authorizedUserId.equals(ownerId)) {
             return new ModelAndView("error/forbidden");
         }
 
         ModelAndView result = new ModelAndView("notes/editNoteForm");
         result.addObject("note", note);
+        List<Category> categories = List.of(Category.values());
+        result.addObject("categories", categories);
         return result;
     }
 
     @PostMapping
-    private ModelAndView save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult bindingResult){
+    private ModelAndView save(@Validated @ModelAttribute("note") NoteDTO note, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ModelAndView model = new ModelAndView("error/noteCreateError");
             model.addObject("errors", bindingResult.getFieldErrors());
             return model;
         }
-        if (Objects.nonNull(note.getId())){
+        if (Objects.nonNull(note.getId())) {
             note.setId(null);
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
         return findAll();
     }
+
     @PutMapping("/{id}")
-    private String update(@Validated @RequestBody NoteDTO note, BindingResult result, @PathVariable("id") UUID id){
+    private ModelAndView update(@Validated NoteDTO note, BindingResult result, @PathVariable("id") UUID id) {
         if (result.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Note not updated!");
         }
         UUID authorizedUserId = userService.getAuthorizedUser().getId();
         UUID ownerId = noteService.findById(id).getUser().getId();
-        if (!authorizedUserId.equals(ownerId)){
-            return "error/forbidden";
+        if (!authorizedUserId.equals(ownerId)) {
+            return new ModelAndView("error/forbidden");
         }
         note.setUser(userService.getAuthorizedUser());
         noteService.save(note);
-        throw new ResponseStatusException(HttpStatus.OK, "Note Updated");
+        return findAll();
     }
 
     @DeleteMapping("/{id}")
@@ -92,7 +96,7 @@ public class NoteController {
     @GetMapping("/share/{id}")
     private ModelAndView getPublicNote(@PathVariable("id") UUID id) {
         NoteDTO note = noteService.findById(id);
-        if (note.getAccessType().equals(AccessType.PUBLIC)){
+        if (note.getAccessType().equals(AccessType.PUBLIC)) {
             return new ModelAndView("notes/publicNote").addObject("note", note);
         }
         return new ModelAndView("error/forbidden");

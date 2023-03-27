@@ -103,12 +103,12 @@ public class UserService {
         }
     }
 
-    public List<NoteDTO> allFriendsNotes(UserDTO user){
+    public List<NoteDTO> getSavedPublicNotes(UserDTO user){
         UserDAO userDAO = mapper.userToDAO(user);
         return userDAO.getFriendsNotes().stream().map(mapper::noteToDTO).collect(Collectors.toList());
     }
 
-    public void addFriendNote(UserDTO user, UUID noteToAddId){
+    public void savePublicNote(UserDTO user, UUID noteToAddId){
         UserDAO userDAO = mapper.userToDAO(user);
         Optional<NoteDAO> noteToAdd = noteRepository.findById(noteToAddId);
         if (noteToAdd.isPresent()){
@@ -117,7 +117,7 @@ public class UserService {
         }
     }
 
-    public void deleteFriendNote(UserDTO user, UUID noteToDeleteId){
+    public void deleteSavedPublicNote(UserDTO user, UUID noteToDeleteId){
         UserDAO userDAO = mapper.userToDAO(user);
         Optional<NoteDAO> noteToDelete = noteRepository.findById(noteToDeleteId);
         if (noteToDelete.isPresent()){

@@ -26,7 +26,7 @@
                     <a class="nav-link" th:href="@{/friends}">Contacts</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/friendsnotes}">Contacts notes</a>
+                    <a class="nav-link" th:href="@{/sharednotes}">Shared notes</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
                     <a class="nav-link" th:href="@{/users/list}">Users</a>
@@ -40,8 +40,8 @@
                         Settings
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/settings/change">change password</a></li>
-                        <li><a class="dropdown-item" href="/logout">sign out</a></li>
+                        <li><a class="dropdown-item" href="/settings/change">Change password</a></li>
+                        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
                     </ul>
                 </li>
             </ul>

@@ -10,14 +10,10 @@
 <body>
 <div>
     <main layout:fragment="main">
-        <div class="container" th:if="${#lists.isEmpty(notes)}"
-             style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3> You didn't add any friends' notes </h3>
+        <div th:if="${#lists.isEmpty(notes)}">
+            <h3> List empty </h3>
         </div>
-        <div class="container" th:if="${not #lists.isEmpty(notes)}"
-             style="background:white; opacity: 0.7; overflow-y: auto">
-            <h3>List of friends' notes</h3>
-            <br>
+        <div th:if="${not #lists.isEmpty(notes)}">
             <input  type="text" id="filter" placeholder="filter">
             <table id="emp-table" class = "table table-striped">
                 <thead>
@@ -28,7 +24,7 @@
                         <option value="all"></option>
                     </select></th>
                     <th col-index=3>Content</th>
-                    <th col-index=4 colspan="3" style="width:15%; max-width:200px; text-align:center">Notes managing
+                    <th col-index=4 colspan="3">Notes managing
                     </th>
                 </tr>
                 </thead>
@@ -45,7 +41,7 @@
                                  alt="editButton"
                                  style="border:0; width:30px; height:30px"/>
                         </a>
-                        <a th:href="@{/friendsnotes/delete/{id}(id=${note.id})}" class="btn btn-light" title="Delete">
+                        <a th:href="@{/sharednotes/delete/{id}(id=${note.id})}" class="btn btn-light" title="Delete">
                             <img src="/icons/trash.png"
                                  alt="deleteButton"
                                  style="border:0; width:30px; height:30px"/>
