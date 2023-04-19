@@ -7,25 +7,26 @@
     <title>Login</title>
 </head>
 <body>
-<section layout:fragment="content">
-    <div class="container">
-        <form class="form-signin" method="POST" th:action="@{/login}">
-            <h2 class="form-heading">Log in</h2>
-
-            <div class="form-group">
-                <span class="form-massage" th:text="${message}"></span>
-                <input name="username" type="text" class="form-control" placeholder="Email"
-                       autofocus="true"/>
-
-                <input name="password" type="password" class="form-control" placeholder="Password"/>
-                <span class="has-error" th:text="${error}"></span>
-
-                <button class="btn btn-lg btn-primary btn-block form-control" type="submit">Log In</button>
-                <h4 class="text-center"><a class="text-href" href="/registration">Create an account</a></h4>
-            </div>
-        </form>
+<main layout:fragment="main">
+    <div class="row">
+    <form class="form-signin pt-3 col-lg-6 mx-auto" method="POST" th:action="@{/login}">
+        <span class="form-massage" th:text="${message}"></span>
+        <div class="mb-3">
+            <label for="username" class="form-label">Email address</label>
+            <input name="username" id="username" type="email" class="form-control" placeholder="Email"
+                   autofocus="true" aria-describedby="emailHelp"/>
+            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input name="password" type="password" class="form-control" id="password">
+            <span class="has-error" th:text="${error}"></span>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block form-control" type="submit">Log In</button>
+        <h4 class="text-center"><a class="text-href" href="/registration">Create an account</a></h4>
+    </form>
     </div>
-</section>
+</main>
 </body>
 </html>
 

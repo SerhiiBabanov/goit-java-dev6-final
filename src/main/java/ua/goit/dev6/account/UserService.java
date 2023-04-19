@@ -36,18 +36,21 @@ public class UserService {
     }
 
     public UserDTO updateUserEmailAndRole(UserDTO userDTO) {
-        UserDTO updateUser = getById(userDTO.getId());
+        UserDAO updateUser = userRepository.findById(userDTO.getId())
+                .orElseThrow(() -> new NotFoundException("User for update not found - " + userDTO.getId()));
         updateUser.setEmail(userDTO.getEmail());
         updateUser.setRoles(userDTO.getRoles());
-        userRepository.save(mapper.userToDAO(updateUser));
-        return updateUser;
+        userRepository.save(updateUser);
+        return mapper.userToDTO(updateUser);
     }
+
     public UserDTO updateUserPassword(UserDTO updateUser) {
         UserDTO userDTO = getById(updateUser.getId());
         userDTO.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         userRepository.save(mapper.userToDAO(userDTO));
         return userDTO;
     }
+
     public List<UserDTO> listAll() {
         return userRepository.findAll()
                 .stream()
@@ -71,7 +74,10 @@ public class UserService {
     }
 
     public boolean checkPassword(String password) {
-        return passwordEncoder.matches(password, getAuthorizedUser().getPassword());
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String currentPassword = userRepository.findByEmail(userDetails.getUsername()).map(UserDAO::getPassword)
+                .orElseThrow(() -> new NotFoundException("Error with getting authorized user"));
+        return passwordEncoder.matches(password, currentPassword);
     }
 
     public UserDTO getAuthorizedUser() {
@@ -80,47 +86,47 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Error with getting autorized user"));
     }
 
-    public List<UserDTO> allFriend(UserDTO user){
+    public List<UserDTO> allFriend(UserDTO user) {
         UserDAO userDAO = mapper.userToDAO(user);
         return userDAO.getFriends().stream().map(mapper::userToDTO).collect(Collectors.toList());
     }
 
-    public void addFriend(UUID userId,UUID friendToAddId){
+    public void addFriend(UUID userId, UUID friendToAddId) {
         Optional<UserDAO> authUser = userRepository.findById(userId);
         Optional<UserDAO> newFriend = userRepository.findById(friendToAddId);
-        if (authUser.isPresent() && newFriend.isPresent()){
+        if (authUser.isPresent() && newFriend.isPresent()) {
             authUser.get().getFriends().add(newFriend.get());
             userRepository.save(authUser.get());
         }
     }
 
-    public void deleteFriend(UUID userId,UUID friendToRemoveId){
+    public void deleteFriend(UUID userId, UUID friendToRemoveId) {
         Optional<UserDAO> authUser = userRepository.findById(userId);
         Optional<UserDAO> userToRemoveFromFriend = userRepository.findById(friendToRemoveId);
-        if (authUser.isPresent() && userToRemoveFromFriend.isPresent()){
+        if (authUser.isPresent() && userToRemoveFromFriend.isPresent()) {
             authUser.get().getFriends().remove(userToRemoveFromFriend.get());
             userRepository.save(authUser.get());
         }
     }
 
-    public List<NoteDTO> allFriendsNotes(UserDTO user){
+    public List<NoteDTO> getSavedPublicNotes(UserDTO user) {
         UserDAO userDAO = mapper.userToDAO(user);
         return userDAO.getFriendsNotes().stream().map(mapper::noteToDTO).collect(Collectors.toList());
     }
 
-    public void addFriendNote(UserDTO user, UUID noteToAddId){
+    public void savePublicNote(UserDTO user, UUID noteToAddId) {
         UserDAO userDAO = mapper.userToDAO(user);
         Optional<NoteDAO> noteToAdd = noteRepository.findById(noteToAddId);
-        if (noteToAdd.isPresent()){
+        if (noteToAdd.isPresent()) {
             userDAO.getFriendsNotes().add(noteToAdd.get());
             userRepository.save(userDAO);
         }
     }
 
-    public void deleteFriendNote(UserDTO user, UUID noteToDeleteId){
+    public void deleteSavedPublicNote(UserDTO user, UUID noteToDeleteId) {
         UserDAO userDAO = mapper.userToDAO(user);
         Optional<NoteDAO> noteToDelete = noteRepository.findById(noteToDeleteId);
-        if (noteToDelete.isPresent()){
+        if (noteToDelete.isPresent()) {
             userDAO.getFriendsNotes().remove(noteToDelete.get());
             userRepository.save(userDAO);
         }

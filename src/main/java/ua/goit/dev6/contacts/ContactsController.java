@@ -1,4 +1,4 @@
-package ua.goit.dev6.friend;
+package ua.goit.dev6.contacts;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -18,13 +18,13 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Secured(value = {"ROLE_ADMIN"})
 @Controller
-@RequestMapping("/friends")
-public class FriendController {
+@RequestMapping("/contacts")
+public class ContactsController {
     private final UserService userService;
     private final NoteService noteService;
     @GetMapping
     public ModelAndView findAllFriend(){
-        ModelAndView result = new ModelAndView("friends/friends");
+        ModelAndView result = new ModelAndView("contacts/contacts");
         UserDTO authorizedUser = userService.getAuthorizedUser();
         result.addObject("users",userService.allFriend(authorizedUser));
         return result;
@@ -32,24 +32,24 @@ public class FriendController {
 
     @GetMapping("/add")
     public ModelAndView potentialFriends() {
-        ModelAndView result = new ModelAndView("friends/addFriend");
+        ModelAndView result = new ModelAndView("contacts/addContact");
         result.addObject("users", userService.listAll());
         return result;
     }
     @GetMapping("/add/{id}")
     public String addFriend(@PathVariable("id") UUID id) {
         userService.addFriend(userService.getAuthorizedUser().getId(),id);
-        return "redirect:/friends";
+        return "redirect:/contacts";
     }
 
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") UUID id) {
         userService.deleteFriend(userService.getAuthorizedUser().getId(),id);
-        return "redirect:/friends";
+        return "redirect:/contacts";
     }
     @GetMapping("/view/{id}")
     public ModelAndView viewNoteFriend(@PathVariable("id") UUID id) {
-        ModelAndView result = new ModelAndView("friends/friendNotes");
+        ModelAndView result = new ModelAndView("contacts/contactsPublicNotes");
         List<NoteDTO> notes = noteService.findPublicByUserId(id);
         result.addObject("notes", notes);
         return result;

@@ -13,6 +13,7 @@ import java.time.LocalDate;
 public interface EntityMapper {
 
     @Mapping(target = "passwordConfirm", ignore = true)
+    @Mapping(target = "password", ignore = true)
     UserDTO userToDTO(UserDAO userDAO);
     UserDAO userToDAO(UserDTO userDTO);
 

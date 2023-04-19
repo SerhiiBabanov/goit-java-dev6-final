@@ -7,48 +7,45 @@
     <title>Create Note</title>
 </head>
 <body>
-<section layout:fragment="content">
-    <div class="container" style="background:white; opacity: 0.7; overflow-y: auto; position:relative">
+<main layout:fragment="main">
         <h1>Create note</h1>
         <form th:action="@{/notes}" th:object="${note}" method="POST">
-            <div class="form-group">
-                <label> Title: </label>
-                <input type="text" th:field="*{name}" class="form-control">
+            <div class="mb-3">
+                <label for="name" class="form-label"> Title: </label>
+                <input type="text" th:field="*{name}" class="form-control" id="name">
                 <span class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
-            <div class="form-group" style ="margin-top: 10px;">
-                <label> Category: </label>
+            <div class="mb-3">
+                <label for="category" class="form-label"> Category: </label>
                 <select class="form-select" th:field="*{category}" id="category">
                     <option value="">select category</option>
-                    <option th:each="category : ${T(ua.goit.dev6.note.Category).values()}"
+                    <option th:each="category : ${categories}"
                             th:value="${category}"
                             th:text="${category.name}">
                     </option>
                 </select>
             </div>
-            <div class="form-group">
-                <label> Content: </label>
-                <textarea rows="15" th:field="*{content}" class="form-control"></textarea><br>
+            <div class="mb-3">
+                <label for="textarea" class="form-label"> Content: </label>
+                <textarea th:field="*{content}" class="form-control" style="height: 100px" id="textarea"></textarea><br>
             </div>
-            <div class="form-check">
-                <label class="form-check-label"> Public </label>
+            <div class="mb-3">
+                <label for="public" class="form-check-label"> Public </label>
                 <input class="form-check-input" type="radio" id="public" name="accessType"
                        th:value="PUBLIC">
             </div>
-            <div class="form-check">
-                <label class="form-check-label"> Private </label>
+            <div class="mb-3">
+                <label for="private" class="form-check-label"> Private </label>
                 <input class="form-check-input" type="radio" id="private" name="accessType"
                        th:value="PRIVATE" th:checked="${true}">
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary" style="position:absolute; bottom:12px;right:150px">Create</button>
+            <div class="mb-3">
+                <a class="btn btn-secondary mr-3" th:href="@{/notes}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
-        <form th:action="@{/notes}" method="GET">
-            <button class="btn btn-secondary" type="submit" style="position:absolute; bottom:12px;right:12px">Back to Notes</button>
-        </form>
-    </div>
 
-</section>
+
+</main>
 </body>
 </html>

@@ -7,8 +7,7 @@
     <title>Public Note</title>
 </head>
 <body>
-<section layout:fragment="content">
-    <div class="container" style="background:white; opacity: 0.7; overflow-y: auto">
+<main layout:fragment="main">
         <h5>Public note</h5>
         <div class="text-center border-bottom border-top">
             <h3>
@@ -18,11 +17,9 @@
         <h4>
             <span th:text="${note.content}"></span>
         </h4>
-        <br>
-        <a th:href="@{/friendsnotes/add/{id}(id=${note.id})}" class="btn btn-secondary" alt="">
-            Add to my list
-        </a><br><br>
-    </div>
-</section>
+        <a th:href="@{/sharednotes/add/{id}(id=${note.id})}" class="btn btn-secondary mb-3">
+            Add to shared notes
+        </a>
+</main>
 </body>
 </html>
