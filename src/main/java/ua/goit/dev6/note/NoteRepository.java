@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface NoteRepository extends JpaRepository<NoteDAO, UUID> {
     @Query("from NoteDAO n where n.user.id = :id")
-    List<NoteDAO> findByUser_Id(@Param("id") UUID id);
+    List<NoteDAO> findByUserId(@Param("id") UUID id);
 }

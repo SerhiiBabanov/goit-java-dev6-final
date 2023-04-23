@@ -20,7 +20,7 @@ public class NoteService {
         Optional<NoteDAO> optional = repository.findById(id);
         return optional
                 .map(mapper::noteToDTO)
-                .orElseGet(() -> {return null;});
+                .orElse(null);
     }
 
     public List<NoteDTO> findAll() {
@@ -42,13 +42,13 @@ public class NoteService {
     }
 
     public List<NoteDTO> findByUserId(UUID id){
-        return repository.findByUser_Id(id).stream()
+        return repository.findByUserId(id).stream()
                 .map(mapper::noteToDTO)
                 .collect(Collectors.toList());
     }
 
     public List<NoteDTO> findPublicByUserId(UUID id){
-        return repository.findByUser_Id(id).stream()
+        return repository.findByUserId(id).stream()
                 .filter(noteDTO -> noteDTO.getAccessType().equals(AccessType.PUBLIC))
                 .map(mapper::noteToDTO)
                 .collect(Collectors.toList());
